@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PD1S3Z_HFT_2021221.Data
 {
-    class LibraryDbContext : DbContext
+    public class LibraryDbContext : DbContext
     {
         public virtual DbSet<Book> Book { get; set; }
         public virtual DbSet<BookLending> BookLending { get; set; }
@@ -36,10 +36,10 @@ namespace PD1S3Z_HFT_2021221.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            Library kave = new Library() { Id = 0, Name = "Kávé-könyvtár", BookCapacity = 5 };
+            Library kave = new Library() { Id = 2, Name = "Kávé-könyvtár", BookCapacity = 5 };
             Library suti = new Library() { Id = 1, Name = "Süti-könyvtár", BookCapacity = 5 };
 
-            Book book1 = new Book() { Id = 0, Author = "Füst Milán", Title = "A feleségem története", Genre = "regény", NumberOfPages = 408, Publishing = 1942, LibraryId = kave.Id};
+            Book book1 = new Book() { Id = 7, Author = "Füst Milán", Title = "A feleségem története", Genre = "regény", NumberOfPages = 408, Publishing = 1942, LibraryId = kave.Id};
             Book book2 = new Book() { Id = 1, Author = "Stefan Zweig", Title = "Sakknovella", Genre = "novella", NumberOfPages = 97, Publishing = 1941, LibraryId = kave.Id};
             Book book3 = new Book() { Id = 2, Author = "Charles Dickens", Title = "Nicolas Nickleby I.", Genre = "regény", NumberOfPages = 962, Publishing = 1839, LibraryId = suti.Id};
             Book book4 = new Book() { Id = 3, Author = "Charles Dickens", Title = "Karácsonyi ének", Genre = "regény", NumberOfPages = 98, Publishing = 1843, LibraryId = suti.Id};
@@ -47,7 +47,7 @@ namespace PD1S3Z_HFT_2021221.Data
             Book book6 = new Book() { Id = 5, Author = "J. K. Rowling", Title = "Harry Potter és a titkok kamrája", Genre = "szórakoztató irodalom", NumberOfPages = 315, Publishing = 1998, LibraryId = kave.Id};
             Book book7 = new Book() { Id = 6, Author = "Vladimir Nabokov", Title = "Lolita", Genre = "regény", NumberOfPages = 491, Publishing = 1955, LibraryId = suti.Id};
 
-            Borrower borrower1 = new Borrower() { Id = 0, Name = "Sári", Age = 15, MembershipLevel = "bronze", NumberOfBooksRead = 2, StartOfMembership = new DateTime(2018, 1, 1) };
+            Borrower borrower1 = new Borrower() { Id = 3, Name = "Sári", Age = 15, MembershipLevel = "bronze", NumberOfBooksRead = 2, StartOfMembership = new DateTime(2018, 1, 1) };
             Borrower borrower2 = new Borrower() { Id = 1, Name = "Lajos", Age = 30, MembershipLevel = "gold", NumberOfBooksRead = 20, StartOfMembership = new DateTime(2000, 2, 4) };
             Borrower borrower3 = new Borrower() { Id = 2, Name = "Erika", Age = 20, MembershipLevel = "silver", NumberOfBooksRead = 11, StartOfMembership = new DateTime(2020, 11, 20)};
 
