@@ -11,15 +11,31 @@ namespace PD1S3Z_HFT_2021221.Repository
     public class LibraryRepository : Repository<Library>, ILibraryRepository
     {
         public LibraryRepository(DbContext ctx) : base(ctx) {}
+
+        public void AddBookToLibrary(int libraryId, Book book)
+        {
+            Library library = GetOne(libraryId);
+            library.Books.Add(book);
+            ctx.SaveChanges();
+        }
+
+        public void DeleteBookFromLibrary(int libraryId, Book book)
+        {
+            Library library = GetOne(libraryId);
+            library.Books.Remove(book);
+            ctx.SaveChanges();
+        }
+
         public override Library GetOne(int id)
         {
             return GetAll().FirstOrDefault(x => x.Id == id);
         }
 
-        public override void Insert(Library entity)
+        public override Library Insert(Library entity)
         {
             ctx.Set<Library>().Add(entity);
             ctx.SaveChanges();
+            return entity;
         }
 
         public override bool Remove(int id)

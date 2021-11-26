@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace PD1S3Z_HFT_2021221.Repository
 {
-    interface IBorrowerRepository : IRepository<Borrower>
+    public interface IBorrowerRepository : IRepository<Borrower>
     {
+        void DeleteBookFromBorrower(int borrowerId, Book book);
+        void AddBookToBorrower(int borrowerId, Book book);
         void Update(int id, Borrower borrower);
     }
 }

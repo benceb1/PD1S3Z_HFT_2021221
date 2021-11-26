@@ -8,19 +8,34 @@ using System.Threading.Tasks;
 
 namespace PD1S3Z_HFT_2021221.Repository
 {
-    class BorrowerRepository : Repository<Borrower>, IBorrowerRepository
+    public class BorrowerRepository : Repository<Borrower>, IBorrowerRepository
     {
         public BorrowerRepository(DbContext ctx) : base(ctx) { }
+
+        public void AddBookToBorrower(int borrowerId, Book book)
+        {
+            Borrower borrower = GetOne(borrowerId);
+            borrower.Books.Add(book);
+            ctx.SaveChanges();
+        }
+
+        public void DeleteBookFromBorrower(int borrowerId, Book book)
+        {
+            Borrower borrower = GetOne(borrowerId);
+            borrower.Books.Remove(book);
+            ctx.SaveChanges();
+        }
 
         public override Borrower GetOne(int id)
         {
             return GetAll().FirstOrDefault(x => x.Id == id);
         }
 
-        public override void Insert(Borrower entity)
+        public override Borrower Insert(Borrower entity)
         {
             ctx.Set<Borrower>().Add(entity);
             ctx.SaveChanges();
+            return entity;
         }
 
         public override bool Remove(int id)
