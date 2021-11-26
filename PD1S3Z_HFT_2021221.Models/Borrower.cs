@@ -21,15 +21,17 @@ namespace PD1S3Z_HFT_2021221.Models
         public int Age { get; set; }
         public int NumberOfBooksRead { get; set; }
 
+        public int NumberOfLateLendings { get; set; }
+
         [NotMapped]
         public virtual ICollection<Book> Books { get; set; }
 
         [NotMapped]
-        public virtual ICollection<BookLending> BookLendings { get; set; }
+        public virtual ICollection<Lending> BookLendings { get; set; }
 
         public Borrower()
         {
-            BookLendings = new HashSet<BookLending>();
+            BookLendings = new HashSet<Lending>();
             Books = new HashSet<Book>();
         }
 

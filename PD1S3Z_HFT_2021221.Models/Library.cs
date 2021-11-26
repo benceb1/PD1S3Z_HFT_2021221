@@ -23,14 +23,14 @@ namespace PD1S3Z_HFT_2021221.Models
         public virtual ICollection<Book> Books { get; set; }
 
         [NotMapped]
-        public virtual ICollection<BookLending> BookLendings { get; set; }
+        public virtual ICollection<Lending> BookLendings { get; set; }
 
         // books
 
         public Library()
         {
             Books = new HashSet<Book>();
-            BookLendings = new HashSet<BookLending>();
+            BookLendings = new HashSet<Lending>();
         }
     }
 }

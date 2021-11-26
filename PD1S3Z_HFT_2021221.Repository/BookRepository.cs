@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PD1S3Z_HFT_2021221.Repository
 {
-    class BookRepository : Repository<Book>, IBookRepository
+    public class BookRepository : Repository<Book>, IBookRepository
     {
         public BookRepository(DbContext ctx) : base(ctx)
         {
@@ -19,10 +19,11 @@ namespace PD1S3Z_HFT_2021221.Repository
             return GetAll().FirstOrDefault(x => x.Id == id);
         }
 
-        public override void Insert(Book entity)
+        public override Book Insert(Book entity)
         {
             ctx.Set<Book>().Add(entity);
             ctx.SaveChanges();
+            return entity;
         }
 
         public override bool Remove(int id)

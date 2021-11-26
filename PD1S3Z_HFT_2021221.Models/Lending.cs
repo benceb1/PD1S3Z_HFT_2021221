@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace PD1S3Z_HFT_2021221.Models
 {
-    [Table("book_lending")]
-    public class BookLending
+    [Table("lending")]
+    public class Lending
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -32,7 +32,7 @@ namespace PD1S3Z_HFT_2021221.Models
         [NotMapped]
         public virtual ICollection<Book> Books { get; set; }
 
-        public BookLending()
+        public Lending()
         {
             Books = new HashSet<Book>();
         }

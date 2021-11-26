@@ -21,7 +21,7 @@ namespace PD1S3Z_HFT_2021221.Repository
 
         public abstract T GetOne(int id);
 
-        public abstract void Insert(T entity);
+        public abstract T Insert(T entity);
 
         public abstract bool Remove(int id);
     }

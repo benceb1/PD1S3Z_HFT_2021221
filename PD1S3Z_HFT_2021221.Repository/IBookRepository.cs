@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PD1S3Z_HFT_2021221.Repository
 {
-    interface IBookRepository : IRepository<Book>
+    public interface IBookRepository : IRepository<Book>
     {
         void Update(int id, Book book);
     }

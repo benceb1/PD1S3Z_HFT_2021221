@@ -10,7 +10,7 @@ namespace PD1S3Z_HFT_2021221.Repository
     {
         T GetOne(int id);
         IQueryable<T> GetAll();
-        void Insert(T entity);
+        T Insert(T entity);
         bool Remove(int id);
     }
 }
