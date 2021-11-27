@@ -45,17 +45,22 @@ namespace PD1S3Z_HFT_2021221.Logic
 
         public IList<Lending> GetActiveLendings()
         {
-            throw new NotImplementedException();
+            return LendingRepository.GetAll().Where(x => x.Active).ToList();
         }
 
         public IList<Lending> GetAllLendings()
         {
-            throw new NotImplementedException();
+            return LendingRepository.GetAll().ToList();
         }
 
         public IList<Lending> GetLateLendings()
         {
-            throw new NotImplementedException();
+            return LendingRepository.GetAll().Where(x => x.Active && x.EndDate < DateTime.Now).ToList();
+        }
+
+        public IList<Lending> GetNonActiveLendings()
+        {
+            return LendingRepository.GetAll().Where(x => !x.Active).ToList();
         }
 
         public Lending StartLending(int borrowerId, List<Book> books, int libraryId, int lendingWeeks)
@@ -69,8 +74,6 @@ namespace PD1S3Z_HFT_2021221.Logic
                     throw new InvalidOperationException("Cannot find book in library");
                 }
                 LibraryRepository.DeleteBookFromLibrary(library.Id, book);
-
-                
 
                 BorrowerRepository.AddBookToBorrower(borrowerId, bookFromLibrary);
             }

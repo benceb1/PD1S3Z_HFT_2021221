@@ -18,5 +18,6 @@ namespace PD1S3Z_HFT_2021221.Logic
         IList<Lending> GetAllLendings();
 
         IList<Lending> GetLateLendings();
+        IList<Lending> GetNonActiveLendings();
     }
 }
