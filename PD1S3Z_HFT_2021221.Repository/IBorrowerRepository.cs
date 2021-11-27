@@ -12,5 +12,6 @@ namespace PD1S3Z_HFT_2021221.Repository
         void DeleteBookFromBorrower(int borrowerId, Book book);
         void AddBookToBorrower(int borrowerId, Book book);
         void Update(int id, Borrower borrower);
+        void IncrementLateLendingNumber(int borrowerId);
     }
 }

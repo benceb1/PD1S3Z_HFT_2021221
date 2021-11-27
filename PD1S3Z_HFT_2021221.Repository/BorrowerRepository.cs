@@ -31,6 +31,14 @@ namespace PD1S3Z_HFT_2021221.Repository
             return GetAll().FirstOrDefault(x => x.Id == id);
         }
 
+        public void IncrementLateLendingNumber(int borrowerId)
+        {
+            Borrower borrower = GetOne(borrowerId);
+            if (borrower == null) throw new InvalidOperationException("Borrower not found!");
+            borrower.NumberOfLateLendings++;
+            ctx.SaveChanges();
+        }
+
         public override Borrower Insert(Borrower entity)
         {
             ctx.Set<Borrower>().Add(entity);
