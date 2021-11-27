@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace PD1S3Z_HFT_2021221.Logic
 {
-    public interface IBorrowerLogic
+    public interface IBookLogic
     {
-        public Borrower InsertNewBorrower(string name, int age);
-        public void DeleteBorrower(int borrowerId);
+        IList<Book> GetAllBooks();
+        IList<Book> GetBooksByLibraryId(int libraryId);
+        IList<Book> GetBooksByBorrowerId(int borrowerId);
     }
 }
