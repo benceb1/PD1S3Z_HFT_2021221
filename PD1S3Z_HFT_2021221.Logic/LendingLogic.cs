@@ -38,6 +38,11 @@ namespace PD1S3Z_HFT_2021221.Logic
                 BorrowerRepository.DeleteBookFromBorrower(lending.BorrowerId, book);
             }
 
+            if (lending.EndDate < DateTime.Now)
+            {
+                BorrowerRepository.IncrementLateLendingNumber(lending.BorrowerId);
+            }
+
             LendingRepository.SetActiveStatus(lending.Id, false);
 
             return lending;
