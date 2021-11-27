@@ -58,7 +58,7 @@ namespace PD1S3Z_HFT_2021221.Data
                     .HasForeignKey(book => book.LibraryId)
                     .OnDelete(DeleteBehavior.NoAction);
 
-                entity.HasOne(book => book.BookLending)
+                entity.HasMany(book => book.BookLendings)
                     .WithMany(bookLending => bookLending.Books);
 
                 entity.HasOne(book => book.Borrower)

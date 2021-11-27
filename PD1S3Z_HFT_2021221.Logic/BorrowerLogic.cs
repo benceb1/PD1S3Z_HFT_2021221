@@ -11,8 +11,14 @@ namespace PD1S3Z_HFT_2021221.Logic
     public class BorrowerLogic : IBorrowerLogic
     {
 
-        private LibraryRepository LibraryRepository;
-        private BorrowerRepository BorrowerRepository;
+        private ILibraryRepository LibraryRepository;
+        private IBorrowerRepository BorrowerRepository;
+
+        public BorrowerLogic(ILibraryRepository libraryRepository, IBorrowerRepository borrowerRepository)
+        {
+            LibraryRepository = libraryRepository;
+            BorrowerRepository = borrowerRepository;
+        }
 
         public void DeleteBorrower(int borrowerId)
         {
@@ -57,8 +63,7 @@ namespace PD1S3Z_HFT_2021221.Logic
             borrower.MembershipLevel = "bronze";
             borrower.NumberOfLateLendings = 0;
             borrower.StartOfMembership = DateTime.Now;
-            BorrowerRepository.Insert(borrower);
-            return borrower;
+            return BorrowerRepository.Insert(borrower);
         }
     }
 }

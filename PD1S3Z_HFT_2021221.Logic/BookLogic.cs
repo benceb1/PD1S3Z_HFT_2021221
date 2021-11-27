@@ -10,9 +10,9 @@ namespace PD1S3Z_HFT_2021221.Logic
 {
     public class BookLogic : IBookLogic
     {
-        private BookRepository BookRepository;
+        private IBookRepository BookRepository;
 
-        public BookLogic(BookRepository bookRepository)
+        public BookLogic(IBookRepository bookRepository)
         {
             BookRepository = bookRepository;
         }

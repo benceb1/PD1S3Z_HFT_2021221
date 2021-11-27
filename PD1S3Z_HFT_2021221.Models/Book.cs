@@ -26,7 +26,7 @@ namespace PD1S3Z_HFT_2021221.Models
         public int Publishing { get; set; }
 
         [NotMapped]
-        public virtual Lending BookLending { get; set; }
+        public virtual ICollection<Lending> BookLendings { get; set; }
 
         [NotMapped]
         public virtual Library Library { get; set; }
@@ -37,6 +37,11 @@ namespace PD1S3Z_HFT_2021221.Models
         public int? LibraryId { get; set; }
 
         public int? BorrowerId { get; set; }
+
+        public Book()
+        {
+            BookLendings = new HashSet<Lending>();
+        }
 
     }
 }
