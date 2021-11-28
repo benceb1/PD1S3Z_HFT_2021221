@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace PD1S3Z_HFT_2021221.Models
@@ -20,9 +21,11 @@ namespace PD1S3Z_HFT_2021221.Models
         public int BookCapacity { get; set; }
 
         [NotMapped]
+        [JsonIgnore]
         public virtual ICollection<Book> Books { get; set; }
 
         [NotMapped]
+        [JsonIgnore]
         public virtual ICollection<Lending> BookLendings { get; set; }
 
         // books
