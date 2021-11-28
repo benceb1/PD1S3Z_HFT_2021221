@@ -21,9 +21,10 @@ namespace PD1S3Z_HFT_2021221.Logic
             BorrowerRepository = borrowerRepository;
         }
 
-        public Lending EndLending(Lending lending, int libraryId)
+        public Lending EndLending(int lendingId, int libraryId)
         {
             Library library = LibraryRepository.GetOne(libraryId);
+            Lending lending = LendingRepository.GetOne(lendingId);
 
             int totalBooks = library.Books.Count + lending.Books.Count;
 
@@ -68,19 +69,21 @@ namespace PD1S3Z_HFT_2021221.Logic
             return LendingRepository.GetAll().Where(x => !x.Active).ToList();
         }
 
-        public Lending StartLending(int borrowerId, List<Book> books, int libraryId, int lendingWeeks)
+        public Lending StartLending(int borrowerId, int[] bookIds, int libraryId, int lendingWeeks)
         {
             Library library = LibraryRepository.GetOne(libraryId);
-            foreach (var book in books)
+            List<Book> books = new List<Book>();
+            foreach (var bookId in bookIds)
             {
-                Book bookFromLibrary = library.Books.Where(b => book.Id == b.Id).FirstOrDefault();
+                Book bookFromLibrary = library.Books.Where(b => bookId == b.Id).FirstOrDefault();
                 if (bookFromLibrary == null)
                 {
                     throw new InvalidOperationException("Cannot find book in library");
                 }
-                LibraryRepository.DeleteBookFromLibrary(library.Id, book);
 
+                LibraryRepository.DeleteBookFromLibrary(library.Id, bookFromLibrary);
                 BorrowerRepository.AddBookToBorrower(borrowerId, bookFromLibrary);
+                books.Add(bookFromLibrary);
             }
             Lending lending = new Lending()
             {

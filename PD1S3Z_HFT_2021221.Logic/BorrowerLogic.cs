@@ -55,11 +55,13 @@ namespace PD1S3Z_HFT_2021221.Logic
             BorrowerRepository.Remove(borrowerId);
         }
 
-        public Borrower InsertNewBorrower(string name, int age)
+        public IList<Borrower> GetBorrowers()
         {
-            Borrower borrower = new Borrower();
-            borrower.Name = name;
-            borrower.Age = age;
+            return BorrowerRepository.GetAll().ToList();
+        }
+
+        public Borrower InsertNewBorrower(Borrower borrower)
+        {
             borrower.MembershipLevel = "bronze";
             borrower.NumberOfLateLendings = 0;
             borrower.StartOfMembership = DateTime.Now;

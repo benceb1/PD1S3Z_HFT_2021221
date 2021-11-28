@@ -9,7 +9,9 @@ namespace PD1S3Z_HFT_2021221.Logic
 {
     public interface IBorrowerLogic
     {
-        public Borrower InsertNewBorrower(string name, int age);
+        public Borrower InsertNewBorrower(Borrower borrower);
         public void DeleteBorrower(int borrowerId);
+
+        public IList<Borrower> GetBorrowers();
     }
 }

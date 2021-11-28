@@ -30,7 +30,12 @@ namespace PD1S3Z_HFT_2021221.Logic
         public IList<Book> GetBooksByLibraryId(int libraryId)
         {
             return BookRepository.GetAll().Where(x => x.LibraryId != null && x.LibraryId == libraryId).ToList();
-
         }
+
+        public Book GetBookById(int Id)
+        {
+            return BookRepository.GetOne(Id);
+        }
+       
     }
 }
