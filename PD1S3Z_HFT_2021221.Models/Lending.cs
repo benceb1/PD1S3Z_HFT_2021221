@@ -36,5 +36,26 @@ namespace PD1S3Z_HFT_2021221.Models
         {
             Books = new HashSet<Book>();
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Lending)
+            {
+                Lending other = obj as Lending;
+                return this.Id == other.Id &&
+                    this.StartDate == other.StartDate &&
+                    this.EndDate == other.EndDate &&
+                    this.Active == other.Active &&
+                    this.Books.SequenceEqual(other.Books) &&
+                    this.LibraryId == other.LibraryId &&
+                    this.BorrowerId == other.BorrowerId;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id;
+        }
     }
 }
