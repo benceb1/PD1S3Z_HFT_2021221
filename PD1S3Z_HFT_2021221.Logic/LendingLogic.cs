@@ -32,6 +32,8 @@ namespace PD1S3Z_HFT_2021221.Logic
                 BorrowerRepository.IncrementLateLendingNumber(lending.BorrowerId);
             }
 
+            BorrowerRepository.IncrementBooksRead(lending.BorrowerId);
+
             LendingRepository.SetActiveStatus(lending.Id, false);
 
             return lending;

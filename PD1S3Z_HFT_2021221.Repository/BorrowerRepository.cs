@@ -30,6 +30,13 @@ namespace PD1S3Z_HFT_2021221.Repository
             Borrower borrower = GetOne(borrowerId);
             if (borrower == null) throw new InvalidOperationException("Borrower not found!");
             borrower.NumberOfLateLendings++;
+
+            string level = Helper.GetLevelByBookNumber(borrower.NumberOfLateLendings);
+            if (level != borrower.MembershipLevel)
+            {
+                borrower.MembershipLevel = level;
+            }
+
             ctx.SaveChanges();
         }
 
