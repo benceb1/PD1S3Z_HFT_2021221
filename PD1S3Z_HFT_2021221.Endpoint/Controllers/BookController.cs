@@ -20,6 +20,12 @@ namespace PD1S3Z_HFT_2021221.Data
             BookLogic = bookLogic;
         }
 
+        [HttpPost]
+        public Book Insert([FromBody]Book book)
+        {
+            return BookLogic.Insert(book);
+        }
+
         [HttpGet] 
         public IEnumerable<Book> GetAll()
         {
@@ -29,7 +35,7 @@ namespace PD1S3Z_HFT_2021221.Data
         [HttpGet("{bookId}")]
         public Book GetBookById([FromRoute] int bookId)
         {
-            return BookLogic.GetBookById(bookId);
+            return BookLogic.GetOneById(bookId);
         }
 
         [HttpGet("library/{libId}")]
@@ -38,10 +44,5 @@ namespace PD1S3Z_HFT_2021221.Data
             return BookLogic.GetBooksByLibraryId(libId);
         }
 
-        [HttpGet("borrower/{borrowerId}")]
-        public IEnumerable<Book> GetBooksByBorrowerId([FromRoute] int borrowerId)
-        {
-            return BookLogic.GetBooksByBorrowerId(borrowerId);
-        }
     }
 }

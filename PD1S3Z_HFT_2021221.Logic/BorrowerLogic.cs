@@ -11,48 +11,20 @@ namespace PD1S3Z_HFT_2021221.Logic
     public class BorrowerLogic : IBorrowerLogic
     {
 
-        private ILibraryRepository LibraryRepository;
         private IBorrowerRepository BorrowerRepository;
 
-        public BorrowerLogic(ILibraryRepository libraryRepository, IBorrowerRepository borrowerRepository)
+        public BorrowerLogic(IBorrowerRepository borrowerRepository)
         {
-            LibraryRepository = libraryRepository;
             BorrowerRepository = borrowerRepository;
         }
 
-        public void DeleteBorrower(int borrowerId)
+        public bool DeleteBorrower(int borrowerId)
         {
             Borrower borrower = BorrowerRepository.GetOne(borrowerId);
 
             if (borrower == null) throw new InvalidOperationException("Borrower not found!");
 
-            if (borrower.Books.Count != 0)
-            {
-                List<Library> libraries = LibraryRepository.GetAll().ToList();
-                if (libraries.Count == 0)
-                {
-                    throw new Exception("Libraries not found");
-                }
-
-                int libIndex = 0;
-
-                foreach (Book book in borrower.Books)
-                {
-                    if (libraries[libIndex].BookCapacity <= libraries[libIndex].Books.Count &&
-                        libraries.Count > (libIndex + 1))
-                    {
-                        libIndex++;
-                    } 
-                    else
-                    {
-                        throw new Exception("There is no more libraries where we can to store books");
-                    }
-                    int libraryId = libraries[libIndex].Id;
-                    LibraryRepository.AddBookToLibrary(libraryId, book);
-                    BorrowerRepository.DeleteBookFromBorrower(borrowerId, book);
-                }
-            }
-            BorrowerRepository.Remove(borrowerId);
+            return BorrowerRepository.Remove(borrowerId);
         }
 
         public IList<Borrower> GetBorrowers()
@@ -60,7 +32,7 @@ namespace PD1S3Z_HFT_2021221.Logic
             return BorrowerRepository.GetAll().ToList();
         }
 
-        public Borrower InsertNewBorrower(Borrower borrower)
+        public Borrower Insert(Borrower borrower)
         {
             borrower.MembershipLevel = "bronze";
             borrower.NumberOfLateLendings = 0;

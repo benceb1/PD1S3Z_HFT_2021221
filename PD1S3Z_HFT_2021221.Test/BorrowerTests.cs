@@ -25,12 +25,11 @@ namespace PD1S3Z_HFT_2021221.Test
             testBorrower.NumberOfLateLendings = 0;
             testBorrower.StartOfMembership = DateTime.Now;
             Mock<IBorrowerRepository> borrowerRepo = new Mock<IBorrowerRepository>();
-            Mock<ILibraryRepository> libraryRepo = new Mock<ILibraryRepository>();
 
             borrowerRepo.Setup(repo => repo.Insert(It.IsAny<Borrower>())).Returns(testBorrower);
-            BorrowerLogic logic = new BorrowerLogic(libraryRepo.Object, borrowerRepo.Object);
+            BorrowerLogic logic = new BorrowerLogic(borrowerRepo.Object);
 
-            Borrower insertedBorrower = logic.InsertNewBorrower(new Borrower() { Name="name", Age = 11});
+            Borrower insertedBorrower = logic.Insert(new Borrower() { Name="name", Age = 11});
 
             Assert.That(insertedBorrower.Id, Is.EqualTo(11));
         }

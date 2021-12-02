@@ -12,26 +12,20 @@ namespace PD1S3Z_HFT_2021221.Repository
     {
         public BorrowerRepository(DbContext ctx) : base(ctx) { }
 
-        public void AddBookToBorrower(int borrowerId, Book book)
-        {
-            Borrower borrower = GetOne(borrowerId);
-            borrower.Books.Add(book);
-            ctx.SaveChanges();
-        }
-
-        public void DeleteBookFromBorrower(int borrowerId, Book book)
-        {
-            Borrower borrower = GetOne(borrowerId);
-            borrower.Books.Remove(book);
-            ctx.SaveChanges();
-        }
-
         public override Borrower GetOne(int id)
         {
             return GetAll().FirstOrDefault(x => x.Id == id);
         }
 
         public void IncrementLateLendingNumber(int borrowerId)
+        {
+            Borrower borrower = GetOne(borrowerId);
+            if (borrower == null) throw new InvalidOperationException("Borrower not found!");
+            borrower.NumberOfLateLendings++;
+            ctx.SaveChanges();
+        }
+
+        public void IncrementBooksRead(int borrowerId)
         {
             Borrower borrower = GetOne(borrowerId);
             if (borrower == null) throw new InvalidOperationException("Borrower not found!");
@@ -51,6 +45,7 @@ namespace PD1S3Z_HFT_2021221.Repository
             Borrower borrower = GetOne(id);
             try
             {
+                if (borrower == null) throw new InvalidOperationException("Borrower not found!");
                 ctx.Set<Borrower>().Remove(borrower);
                 ctx.SaveChanges();
             }

@@ -33,12 +33,7 @@ namespace PD1S3Z_HFT_2021221.Models
         [NotMapped]
         public virtual Library Library { get; set; }
 
-        [NotMapped]
-        public virtual Borrower Borrower { get; set; }
-
-        public int? LibraryId { get; set; }
-
-        public int? BorrowerId { get; set; }
+        public int LibraryId { get; set; }
 
         public Book()
         {
@@ -56,8 +51,7 @@ namespace PD1S3Z_HFT_2021221.Models
                     this.NumberOfPages == other.NumberOfPages &&
                     this.Publishing == other.Publishing &&
                     this.Genre == other.Genre &&
-                    this.LibraryId == other.LibraryId &&
-                    this.BorrowerId == other.BorrowerId;
+                    this.LibraryId == other.LibraryId;
             }
             return false;
         }

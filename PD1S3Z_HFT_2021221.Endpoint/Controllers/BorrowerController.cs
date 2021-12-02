@@ -23,7 +23,7 @@ namespace PD1S3Z_HFT_2021221.Data
         [HttpPost]
         public void AddBorrower([FromBody] Borrower borrower)
         {
-            BorrowerLogic.InsertNewBorrower(borrower);
+            BorrowerLogic.Insert(borrower);
         }
 
         [HttpDelete("{borrowerId}")]

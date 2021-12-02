@@ -9,13 +9,15 @@ namespace PD1S3Z_HFT_2021221.Logic
 {
     public interface ILendingLogic
     {
-        Lending StartLending(int borrowerId, int[] bookIds, int libraryId, int lendingWeeks);
+        Lending StartLending(int borrowerId, int bookId, int lendingWeeks);
 
-        Lending EndLending(int lendingId, int libraryId);
+        Lending EndLending(int lendingId);
+
+        Library GetLibraryByBookId(int bookId);
 
         IList<Lending> GetActiveLendings();
 
-        IList<Lending> GetAllLendings();
+        IList<Lending> GetAll();
 
         IList<Lending> GetLateLendings();
 

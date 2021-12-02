@@ -22,22 +22,23 @@ namespace PD1S3Z_HFT_2021221.Models
 
         public bool Active { get; set; }
 
-        public virtual Library Library { get; set; }
-
-        public virtual Borrower Borrower { get; set; }
-
         public int LibraryId { get; set; }
 
         public int BorrowerId { get; set; }
 
+        public int BookId { get; set; }
+
         [NotMapped]
         [JsonIgnore]
-        public virtual ICollection<Book> Books { get; set; }
+        public virtual Borrower Borrower { get; set; }
 
-        public Lending()
-        {
-            Books = new HashSet<Book>();
-        }
+        [NotMapped]
+        [JsonIgnore]
+        public virtual Library Library { get; set; }
+
+        [NotMapped]
+        [JsonIgnore]
+        public virtual Book Book { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -48,7 +49,7 @@ namespace PD1S3Z_HFT_2021221.Models
                     this.StartDate == other.StartDate &&
                     this.EndDate == other.EndDate &&
                     this.Active == other.Active &&
-                    this.Books.SequenceEqual(other.Books) &&
+                    this.Book.Equals(other.Book) &&
                     this.LibraryId == other.LibraryId &&
                     this.BorrowerId == other.BorrowerId;
             }

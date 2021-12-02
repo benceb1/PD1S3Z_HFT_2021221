@@ -31,6 +31,7 @@ namespace PD1S3Z_HFT_2021221.Repository
             Book book = GetOne(id);
             try
             {
+                if (book == null) throw new InvalidOperationException("Book not found!");
                 ctx.Set<Book>().Remove(book);
                 ctx.SaveChanges();
             }

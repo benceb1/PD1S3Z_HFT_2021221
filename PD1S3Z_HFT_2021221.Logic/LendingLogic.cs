@@ -10,34 +10,22 @@ namespace PD1S3Z_HFT_2021221.Logic
 {
     public class LendingLogic : ILendingLogic
     {
-        ILibraryRepository LibraryRepository;
+        IBookRepository BookRepository;
         ILendingRepository LendingRepository;
         IBorrowerRepository BorrowerRepository;
 
-        public LendingLogic(ILibraryRepository libraryRepository, ILendingRepository lendingRepository, IBorrowerRepository borrowerRepository)
+        public LendingLogic(IBookRepository bookRepository, ILendingRepository lendingRepository, IBorrowerRepository borrowerRepository)
         {
-            LibraryRepository = libraryRepository;
+            BookRepository = bookRepository;
             LendingRepository = lendingRepository;
             BorrowerRepository = borrowerRepository;
         }
 
-        public Lending EndLending(int lendingId, int libraryId)
+        public Lending EndLending(int lendingId)
         {
-            Library library = LibraryRepository.GetOne(libraryId);
             Lending lending = LendingRepository.GetOne(lendingId);
 
-            int totalBooks = library.Books.Count + lending.Books.Count;
-
-            if (totalBooks > library.BookCapacity)
-            {
-                throw new InvalidOperationException("Library capacity is too small");
-            }
-
-            foreach (var book in lending.Books)
-            {
-                LibraryRepository.AddBookToLibrary(libraryId, book);
-                BorrowerRepository.DeleteBookFromBorrower(lending.BorrowerId, book);
-            }
+            if (lending == null) throw new InvalidOperationException("Lending not found!");
 
             if (lending.EndDate < DateTime.Now)
             {
@@ -54,7 +42,7 @@ namespace PD1S3Z_HFT_2021221.Logic
             return LendingRepository.GetAll().Where(x => x.Active).ToList();
         }
 
-        public IList<Lending> GetAllLendings()
+        public IList<Lending> GetAll()
         {
             return LendingRepository.GetAll().ToList();
         }
@@ -69,28 +57,25 @@ namespace PD1S3Z_HFT_2021221.Logic
             return LendingRepository.GetAll().Where(x => !x.Active).ToList();
         }
 
-        public Lending StartLending(int borrowerId, int[] bookIds, int libraryId, int lendingWeeks)
+        public Library GetLibraryByBookId(int bookId)
         {
-            Library library = LibraryRepository.GetOne(libraryId);
-            List<Book> books = new List<Book>();
-            foreach (var bookId in bookIds)
-            {
-                Book bookFromLibrary = library.Books.Where(b => bookId == b.Id).FirstOrDefault();
-                if (bookFromLibrary == null)
-                {
-                    throw new InvalidOperationException("Cannot find book in library");
-                }
+            return BookRepository.GetAll().Where(b => b.Id == bookId).Select(b => b.Library).FirstOrDefault();
+        }
 
-                LibraryRepository.DeleteBookFromLibrary(library.Id, bookFromLibrary);
-                BorrowerRepository.AddBookToBorrower(borrowerId, bookFromLibrary);
-                books.Add(bookFromLibrary);
-            }
+        public Lending StartLending(int borrowerId, int bookId, int lendingWeeks)
+        {
+            Book book = BookRepository.GetOne(bookId);
+            if (book == null) throw new InvalidOperationException("Book not found!");
+
+            Library library = GetLibraryByBookId(bookId);
+            if (library == null) throw new InvalidOperationException("Library not found!");
+
             Lending lending = new Lending()
             {
                 Active = true,
-                Books = books,
+                BookId = book.Id,
                 BorrowerId = borrowerId,
-                LibraryId = libraryId,
+                LibraryId = library.Id,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddDays(7 * lendingWeeks)
             };

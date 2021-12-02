@@ -23,33 +23,31 @@ namespace PD1S3Z_HFT_2021221.Data
         [HttpPost]
         public void CreateLending([FromBody] NewLendingRequest body)
         {
-            LendingLogic.StartLending(body.borrowerId, body.bookIds, body.libraryId, body.lendingWeeks);
+            LendingLogic.StartLending(body.borrowerId, body.bookId, body.lendingWeeks);
         }
 
-        [HttpPost("end")]
-        public void EndLending([FromBody] EndLendingRequest body)
+        [HttpPut("{lendingId}")]
+        public void EndLending([FromBody] int lendingId)
         {
-            LendingLogic.EndLending(body.lendingId, body.libraryId);
+            LendingLogic.EndLending(lendingId);
         }
 
         [HttpGet]
         public IEnumerable<Lending> GetLendings()
         {
-            return LendingLogic.GetAllLendings();
+            return LendingLogic.GetAll();
         } 
     }
 
     public class NewLendingRequest
     {
         public int borrowerId { get; set; }
-        public int libraryId { get; set; }
         public int lendingWeeks { get; set; }
-        public int[] bookIds { get; set; }
+        public int bookId { get; set; }
     }
 
     public class EndLendingRequest
     {
         public int lendingId { get; set; }
-        public int libraryId { get; set; }
     }
 }

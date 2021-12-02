@@ -11,7 +11,7 @@ namespace PD1S3Z_HFT_2021221.Logic
     {
         IList<Book> GetAllBooks();
         IList<Book> GetBooksByLibraryId(int libraryId);
-        IList<Book> GetBooksByBorrowerId(int borrowerId);
-        Book GetBookById(int Id);
+        Book GetOneById(int Id);
+        Book Insert(Book book);
     }
 }

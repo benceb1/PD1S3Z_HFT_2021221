@@ -30,12 +30,12 @@ namespace PD1S3Z_HFT_2021221.Test
         public void setup()
         {
             Mock<IBorrowerRepository> borrowerRepo = new Mock<IBorrowerRepository>();
-            Mock<ILibraryRepository> libraryRepo = new Mock<ILibraryRepository>();
-            Mock<ILendingRepository> leningRepo = new Mock<ILendingRepository>();
+            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
+            Mock<ILendingRepository> lendingRepo = new Mock<ILendingRepository>();
 
-            leningRepo.Setup(repo => repo.GetAll()).Returns(lendings.AsQueryable());
+            lendingRepo.Setup(repo => repo.GetAll()).Returns(lendings.AsQueryable());
 
-            logic = new LendingLogic(libraryRepo.Object, leningRepo.Object, borrowerRepo.Object);
+            logic = new LendingLogic(bookRepo.Object, lendingRepo.Object, borrowerRepo.Object);
         }
 
         [Test]

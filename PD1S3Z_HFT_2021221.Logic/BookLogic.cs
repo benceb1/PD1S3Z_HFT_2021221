@@ -22,19 +22,19 @@ namespace PD1S3Z_HFT_2021221.Logic
             return BookRepository.GetAll().ToList();
         }
 
-        public IList<Book> GetBooksByBorrowerId(int borrowerId)
-        {
-            return BookRepository.GetAll().Where(x => x.BorrowerId != null && x.BorrowerId == borrowerId).ToList();
-        }
-
         public IList<Book> GetBooksByLibraryId(int libraryId)
         {
-            return BookRepository.GetAll().Where(x => x.LibraryId != null && x.LibraryId == libraryId).ToList();
+            return BookRepository.GetAll().Where(x => x.LibraryId == libraryId).ToList();
         }
 
-        public Book GetBookById(int Id)
+        public Book GetOneById(int Id)
         {
             return BookRepository.GetOne(Id);
+        }
+
+        public Book Insert(Book book)
+        {
+            return BookRepository.Insert(book);
         }
        
     }
