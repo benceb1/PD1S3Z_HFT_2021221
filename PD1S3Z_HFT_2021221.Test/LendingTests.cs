@@ -127,6 +127,7 @@ namespace PD1S3Z_HFT_2021221.Test
         Mock<IBookRepository> bookRepo;
         Mock<ILendingRepository> lendingRepo;
         Library exceptedLibrary;
+        Book exceptedBook;
 
         private LendingLogic CreateLogicWithMocks()
         {
@@ -149,14 +150,15 @@ namespace PD1S3Z_HFT_2021221.Test
 
             List<Lending> lendings = new List<Lending>()
             {
-                new Lending() {Id = 1, LibraryId = kave.Id, Library = kave},
-                new Lending() {Id = 2, LibraryId = suti.Id, Library = suti},
-                new Lending() {Id = 3, LibraryId = kave.Id, Library = kave},
-                new Lending() {Id = 4, LibraryId = suti.Id, Library = suti},
-                new Lending() {Id = 5, LibraryId = kave.Id, Library = kave},
-                new Lending() {Id = 6, LibraryId = kave.Id, Library = kave},
+                new Lending() {Id = 1, LibraryId = kave.Id, Library = kave, Late = true, BookId = 7, Book=books[0] },
+                new Lending() {Id = 2, LibraryId = suti.Id, Library = suti, Late = true, BookId = 2, Book=books[2]},
+                new Lending() {Id = 3, LibraryId = kave.Id, Library = kave, Late = true, BookId = 7, Book=books[0]},
+                new Lending() {Id = 4, LibraryId = suti.Id, Library = suti, Late = true, BookId = 2, Book=books[2]},
+                new Lending() {Id = 5, LibraryId = kave.Id, Library = kave, Late = true, BookId = 7, Book=books[0]},
+                new Lending() {Id = 6, LibraryId = kave.Id, Library = kave, Late = true, BookId = 1, Book=books[1]}
             };
 
+            exceptedBook = books[0];
             exceptedLibrary = kave;
 
             bookRepo.Setup(repo => repo.GetAll()).Returns(books.AsQueryable());
@@ -176,5 +178,15 @@ namespace PD1S3Z_HFT_2021221.Test
             bookRepo.Verify(repo => repo.GetAll(), Times.Never);
         }
 
+        [Test]
+        public void TestGetMostBelatedBook()
+        {
+            var logic = CreateLogicWithMocks();
+            var book = logic.MostBelatedBook();
+
+            Assert.That(book, Is.EqualTo(exceptedBook));
+            lendingRepo.Verify(repo => repo.GetAll(), Times.Exactly(1));
+            bookRepo.Verify(repo => repo.GetAll(), Times.Never);
+        }
     }
 }

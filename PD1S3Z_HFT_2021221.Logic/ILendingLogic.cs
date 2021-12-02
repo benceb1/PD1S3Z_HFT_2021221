@@ -24,5 +24,7 @@ namespace PD1S3Z_HFT_2021221.Logic
         IList<Lending> GetNonActiveLendings();
 
         public Library MostPopularLibrary();
+
+        public Book MostBelatedBook();
     }
 }

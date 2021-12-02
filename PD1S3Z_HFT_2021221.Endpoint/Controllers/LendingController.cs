@@ -43,6 +43,12 @@ namespace PD1S3Z_HFT_2021221.Data
         {
             return LendingLogic.MostPopularLibrary();
         }
+
+        [HttpGet("mostBelatedBook")]
+        public Book GetMostBelatedBook()
+        {
+            return LendingLogic.MostBelatedBook();
+        }
     }
 
     public class NewLendingRequest

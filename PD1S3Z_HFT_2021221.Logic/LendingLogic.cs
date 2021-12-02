@@ -79,6 +79,7 @@ namespace PD1S3Z_HFT_2021221.Logic
                 BorrowerId = borrowerId,
                 LibraryId = library.Id,
                 StartDate = DateTime.Now,
+                Late = false,
                 EndDate = DateTime.Now.AddDays(7 * lendingWeeks)
             };
             return LendingRepository.Insert(lending);
@@ -92,6 +93,16 @@ namespace PD1S3Z_HFT_2021221.Logic
                          orderby count descending
                          select grp.Key;
 
+            return result.FirstOrDefault();
+        }
+
+        public Book MostBelatedBook()
+        {
+            var result = from lending in LendingRepository.GetAll()
+                         group lending by lending.Book into grp
+                         let count = grp.Count(x => x.Late)
+                         orderby count descending
+                         select grp.Key;
             return result.FirstOrDefault();
         }
     }

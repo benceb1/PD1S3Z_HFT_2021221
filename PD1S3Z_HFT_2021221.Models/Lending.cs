@@ -22,6 +22,8 @@ namespace PD1S3Z_HFT_2021221.Models
 
         public bool Active { get; set; }
 
+        public bool Late { get; set; }
+
         public int LibraryId { get; set; }
 
         public int BorrowerId { get; set; }

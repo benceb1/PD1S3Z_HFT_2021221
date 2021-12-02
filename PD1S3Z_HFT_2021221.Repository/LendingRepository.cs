@@ -44,6 +44,10 @@ namespace PD1S3Z_HFT_2021221.Repository
             Lending bookLending = GetOne(id);
             if (bookLending == null) throw new InvalidOperationException("BookLending not found!");
             bookLending.Active = isActive;
+            if (bookLending.EndDate < DateTime.Now)
+            {
+                bookLending.Late = true;
+            }
             ctx.SaveChanges();
         }
 
