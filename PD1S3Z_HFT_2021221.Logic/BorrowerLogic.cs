@@ -12,10 +12,12 @@ namespace PD1S3Z_HFT_2021221.Logic
     {
 
         private IBorrowerRepository BorrowerRepository;
+        private ILendingRepository LendingRepository;
 
-        public BorrowerLogic(IBorrowerRepository borrowerRepository)
+        public BorrowerLogic(IBorrowerRepository borrowerRepository, ILendingRepository lendingRepository)
         {
             BorrowerRepository = borrowerRepository;
+            LendingRepository = lendingRepository;
         }
 
         public bool DeleteBorrower(int borrowerId)
@@ -30,6 +32,14 @@ namespace PD1S3Z_HFT_2021221.Logic
         public IList<Borrower> GetBorrowers()
         {
             return BorrowerRepository.GetAll().ToList();
+        }
+
+        public IList<Borrower> GetLateBorrowers()
+        {
+            var result =  from lending in LendingRepository.GetAll()
+                   where lending.Active && lending.EndDate < DateTime.Now
+                   select lending.Borrower;
+            return result.ToList();
         }
 
         public Borrower Insert(Borrower borrower)

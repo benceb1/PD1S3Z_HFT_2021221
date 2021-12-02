@@ -37,5 +37,11 @@ namespace PD1S3Z_HFT_2021221.Data
         {
             return BorrowerLogic.GetBorrowers();
         }
+
+        [HttpGet("late")]
+        public IEnumerable<Borrower> GetLateBorrowers()
+        {
+            return BorrowerLogic.GetLateBorrowers();
+        }
     }
 }

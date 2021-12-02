@@ -45,9 +45,4 @@ namespace PD1S3Z_HFT_2021221.Data
         public int lendingWeeks { get; set; }
         public int bookId { get; set; }
     }
-
-    public class EndLendingRequest
-    {
-        public int lendingId { get; set; }
-    }
 }

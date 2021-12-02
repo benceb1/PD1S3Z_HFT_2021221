@@ -14,5 +14,7 @@ namespace PD1S3Z_HFT_2021221.Logic
         public bool DeleteBorrower(int borrowerId);
 
         public IList<Borrower> GetBorrowers();
+
+        public IList<Borrower> GetLateBorrowers();
     }
 }
