@@ -105,5 +105,17 @@ namespace PD1S3Z_HFT_2021221.Logic
                          select grp.Key;
             return result.FirstOrDefault();
         }
+
+        // the number of books is incremented only when the lending is over
+        // they may still be active lendings
+        public Borrower MostActiveBorrower()
+        {
+            var result = from lending in LendingRepository.GetAll()
+                         group lending by lending.Borrower into grp
+                         let count = grp.Count()
+                         orderby count descending
+                         select grp.Key;
+            return result.FirstOrDefault();
+        }
     }
 }

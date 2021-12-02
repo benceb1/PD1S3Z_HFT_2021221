@@ -26,5 +26,7 @@ namespace PD1S3Z_HFT_2021221.Logic
         public Library MostPopularLibrary();
 
         public Book MostBelatedBook();
+
+        public Borrower MostActiveBorrower();
     }
 }

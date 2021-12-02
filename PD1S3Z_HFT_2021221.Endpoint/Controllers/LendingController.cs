@@ -49,6 +49,12 @@ namespace PD1S3Z_HFT_2021221.Data
         {
             return LendingLogic.MostBelatedBook();
         }
+
+        [HttpGet("mostActiveBorrower")]
+        public Borrower MostActiveBorrower()
+        {
+            return LendingLogic.MostActiveBorrower();
+        }
     }
 
     public class NewLendingRequest

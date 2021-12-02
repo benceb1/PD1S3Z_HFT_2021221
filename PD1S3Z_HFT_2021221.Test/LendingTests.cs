@@ -126,8 +126,9 @@ namespace PD1S3Z_HFT_2021221.Test
         Mock<IBorrowerRepository> borrowerRepo;
         Mock<IBookRepository> bookRepo;
         Mock<ILendingRepository> lendingRepo;
-        Library exceptedLibrary;
-        Book exceptedBook;
+        Library expectedLibrary;
+        Book expectedBook;
+        Borrower expectedBorrower;
 
         private LendingLogic CreateLogicWithMocks()
         {
@@ -137,6 +138,10 @@ namespace PD1S3Z_HFT_2021221.Test
 
             Library kave = new Library() { Id = 2, Name = "Kávé-könyvtár", BookCapacity = 5 };
             Library suti = new Library() { Id = 1, Name = "Süti-könyvtár", BookCapacity = 5 };
+
+            Borrower borrower1 = new Borrower() { Id = 1, Name = "Sári", Age = 15, MembershipLevel = "bronze", NumberOfBooksRead = 2, StartOfMembership = new DateTime(2018, 1, 1), NumberOfLateLendings = 0 };
+            Borrower borrower2 = new Borrower() { Id = 2, Name = "Lajos", Age = 30, MembershipLevel = "gold", NumberOfBooksRead = 20, StartOfMembership = new DateTime(2000, 2, 4), NumberOfLateLendings = 0 };
+            Borrower borrower3 = new Borrower() { Id = 3, Name = "Erika", Age = 20, MembershipLevel = "silver", NumberOfBooksRead = 11, StartOfMembership = new DateTime(2020, 11, 20), NumberOfLateLendings = 0 };
 
             List<Book> books = new List<Book>() {
                 new Book() { Id = 7, Author = "Füst Milán", Title = "A feleségem története", Genre = "regény", NumberOfPages = 408, Publishing = 1942, LibraryId = kave.Id, Library= kave },
@@ -150,16 +155,17 @@ namespace PD1S3Z_HFT_2021221.Test
 
             List<Lending> lendings = new List<Lending>()
             {
-                new Lending() {Id = 1, LibraryId = kave.Id, Library = kave, Late = true, BookId = 7, Book=books[0] },
-                new Lending() {Id = 2, LibraryId = suti.Id, Library = suti, Late = true, BookId = 2, Book=books[2]},
-                new Lending() {Id = 3, LibraryId = kave.Id, Library = kave, Late = true, BookId = 7, Book=books[0]},
-                new Lending() {Id = 4, LibraryId = suti.Id, Library = suti, Late = true, BookId = 2, Book=books[2]},
-                new Lending() {Id = 5, LibraryId = kave.Id, Library = kave, Late = true, BookId = 7, Book=books[0]},
-                new Lending() {Id = 6, LibraryId = kave.Id, Library = kave, Late = true, BookId = 1, Book=books[1]}
+                new Lending() {Id = 1, LibraryId = kave.Id, Library = kave, Late = true, BookId = 7, Book=books[0], BorrowerId = 1, Borrower = borrower1 },
+                new Lending() {Id = 2, LibraryId = suti.Id, Library = suti, Late = true, BookId = 2, Book=books[2], BorrowerId = 1, Borrower = borrower1},
+                new Lending() {Id = 3, LibraryId = kave.Id, Library = kave, Late = true, BookId = 7, Book=books[0], BorrowerId = 1, Borrower = borrower1},
+                new Lending() {Id = 4, LibraryId = suti.Id, Library = suti, Late = true, BookId = 2, Book=books[2], BorrowerId = 2, Borrower = borrower2},
+                new Lending() {Id = 5, LibraryId = kave.Id, Library = kave, Late = true, BookId = 7, Book=books[0], BorrowerId = 2, Borrower = borrower2},
+                new Lending() {Id = 6, LibraryId = kave.Id, Library = kave, Late = true, BookId = 1, Book=books[1], BorrowerId = 3, Borrower = borrower3}
             };
 
-            exceptedBook = books[0];
-            exceptedLibrary = kave;
+            expectedBook = books[0];
+            expectedLibrary = kave;
+            expectedBorrower = borrower1;
 
             bookRepo.Setup(repo => repo.GetAll()).Returns(books.AsQueryable());
             lendingRepo.Setup(repo => repo.GetAll()).Returns(lendings.AsQueryable());
@@ -173,7 +179,7 @@ namespace PD1S3Z_HFT_2021221.Test
             var logic = CreateLogicWithMocks();
             var lib = logic.MostPopularLibrary();
 
-            Assert.That(lib, Is.EqualTo(exceptedLibrary));
+            Assert.That(lib, Is.EqualTo(expectedLibrary));
             lendingRepo.Verify(repo => repo.GetAll(), Times.Exactly(1));
             bookRepo.Verify(repo => repo.GetAll(), Times.Never);
         }
@@ -184,7 +190,18 @@ namespace PD1S3Z_HFT_2021221.Test
             var logic = CreateLogicWithMocks();
             var book = logic.MostBelatedBook();
 
-            Assert.That(book, Is.EqualTo(exceptedBook));
+            Assert.That(book, Is.EqualTo(expectedBook));
+            lendingRepo.Verify(repo => repo.GetAll(), Times.Exactly(1));
+            bookRepo.Verify(repo => repo.GetAll(), Times.Never);
+        }
+
+        [Test]
+        public void TestMostActiveBorrower()
+        {
+            var logic = CreateLogicWithMocks();
+            var borrower = logic.MostActiveBorrower();
+
+            Assert.That(borrower, Is.EqualTo(expectedBorrower));
             lendingRepo.Verify(repo => repo.GetAll(), Times.Exactly(1));
             bookRepo.Verify(repo => repo.GetAll(), Times.Never);
         }
