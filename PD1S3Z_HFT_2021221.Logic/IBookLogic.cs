@@ -11,6 +11,7 @@ namespace PD1S3Z_HFT_2021221.Logic
     {
         IList<Book> GetAllBooks();
         IList<Book> GetBooksByLibraryId(int libraryId);
+        IList<AvgPagesResult> AvgOfPageNumbersInLibraries();
         Book GetOneById(int Id);
         Book Insert(Book book);
     }

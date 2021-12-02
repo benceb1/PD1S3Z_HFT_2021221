@@ -44,5 +44,10 @@ namespace PD1S3Z_HFT_2021221.Data
             return BookLogic.GetBooksByLibraryId(libId);
         }
 
+        [HttpGet("avgpages")]
+        public IEnumerable<AvgPagesResult> GetAvgPagesResults()
+        {
+            return BookLogic.AvgOfPageNumbersInLibraries();
+        }
     }
 }
