@@ -83,5 +83,16 @@ namespace PD1S3Z_HFT_2021221.Logic
             };
             return LendingRepository.Insert(lending);
         }
+
+        public Library MostPopularLibrary()
+        {
+            var result = from lending in LendingRepository.GetAll()
+                         group lending by lending.Library into grp
+                         let count = grp.Count()
+                         orderby count descending
+                         select grp.Key;
+
+            return result.FirstOrDefault();
+        }
     }
 }

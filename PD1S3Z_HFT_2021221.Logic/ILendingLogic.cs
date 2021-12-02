@@ -22,5 +22,7 @@ namespace PD1S3Z_HFT_2021221.Logic
         IList<Lending> GetLateLendings();
 
         IList<Lending> GetNonActiveLendings();
+
+        public Library MostPopularLibrary();
     }
 }
