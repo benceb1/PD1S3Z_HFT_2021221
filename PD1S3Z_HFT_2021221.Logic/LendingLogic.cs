@@ -69,7 +69,7 @@ namespace PD1S3Z_HFT_2021221.Logic
             Book book = BookRepository.GetOne(bookId);
             if (book == null) throw new InvalidOperationException("Book not found!");
 
-            Library library = GetLibraryByBookId(bookId);
+            Library library = book.Library;
             if (library == null) throw new InvalidOperationException("Library not found!");
 
             Lending lending = new Lending()

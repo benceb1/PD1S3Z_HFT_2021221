@@ -47,6 +47,26 @@ namespace PD1S3Z_HFT_2021221.Test
         }
 
         [Test]
+        public void TestAddNewLending()
+        {
+            Mock<IBorrowerRepository> borrowerRepo = new Mock<IBorrowerRepository>();
+            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
+            Mock<ILendingRepository> lendingRepo = new Mock<ILendingRepository>();
+
+            Lending lending = new Lending() { Id = 42, BookId = 1, BorrowerId = 1, Active = true, LibraryId = 1, StartDate = DateTime.Now };
+
+            lendingRepo.Setup(repo => repo.Insert(It.IsAny<Lending>())).Returns(lending);
+            bookRepo.Setup(repo => repo.GetOne(It.IsAny<int>())).Returns(new Book() { Id = 1, LibraryId = 1, Library = new Library() { Id = 1 } });
+            LendingLogic logic = new LendingLogic(bookRepo.Object, lendingRepo.Object, borrowerRepo.Object);
+
+            Lending inserted = logic.StartLending(1, 1, 1);
+
+            Assert.That(inserted.Id, Is.EqualTo(42));
+            lendingRepo.Verify(repo => repo.Insert(It.IsAny<Lending>()), Times.Once);
+        }
+
+
+        [Test]
         public void TestGetActiveLendings()
         {
             ILendingLogic logic;
