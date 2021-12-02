@@ -65,6 +65,31 @@ namespace PD1S3Z_HFT_2021221.Test
             lendingRepo.Verify(repo => repo.Insert(It.IsAny<Lending>()), Times.Once);
         }
 
+        [Test]
+        public void TestAddLendingThrowException()
+        {
+            Mock<IBorrowerRepository> borrowerRepo = new Mock<IBorrowerRepository>();
+            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
+            Mock<ILendingRepository> lendingRepo = new Mock<ILendingRepository>();
+            
+            LendingLogic logic = new LendingLogic(bookRepo.Object, lendingRepo.Object, borrowerRepo.Object);
+
+            Assert.That(() => logic.StartLending(1, 1, 1),
+	            Throws.TypeOf<InvalidOperationException>());
+        }
+
+        [Test]
+        public void TestEndLendingThrowException()
+        {
+            Mock<IBorrowerRepository> borrowerRepo = new Mock<IBorrowerRepository>();
+            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
+            Mock<ILendingRepository> lendingRepo = new Mock<ILendingRepository>();
+
+            LendingLogic logic = new LendingLogic(bookRepo.Object, lendingRepo.Object, borrowerRepo.Object);
+
+            Assert.That(() => logic.EndLending(1),
+                Throws.TypeOf<InvalidOperationException>());
+        }
 
         [Test]
         public void TestGetActiveLendings()
