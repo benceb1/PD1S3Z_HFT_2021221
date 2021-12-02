@@ -20,7 +20,6 @@ namespace PD1S3Z_HFT_2021221.Test
             Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
             Mock<ILibraryRepository> libraryRepo = new Mock<ILibraryRepository>();
 
-
             List<Book> books = new List<Book>()
             {
                 new Book() { Title = "book1", LibraryId = 1 },
@@ -43,9 +42,24 @@ namespace PD1S3Z_HFT_2021221.Test
             Assert.That(result, Is.EquivalentTo(exceptedBooks));
 
             bookRepo.Verify(repo => repo.GetAll(), Times.Once);
-
         }
 
+        [Test]
+        public void TestBookAdd()
+        {
+            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
+            Mock<ILibraryRepository> libraryRepo = new Mock<ILibraryRepository>();
+
+            Book book = new Book() { Id = 42, Title = "book1" };
+
+            bookRepo.Setup(repo => repo.Insert(It.IsAny<Book>())).Returns(book);
+            BookLogic logic = new BookLogic(bookRepo.Object, libraryRepo.Object);
+
+            Book insertedBook = logic.Insert(new Book() { Title = "book1" });
+            Assert.That(insertedBook.Id, Is.EqualTo(42));
+            bookRepo.Verify(repo => repo.Insert(It.IsAny<Book>()), Times.Once);
+            bookRepo.Verify(repo => repo.Insert(new Book() { Title = "book1" }), Times.Once);
+        }
 
         Mock<IBookRepository> bookRepo;
         Mock<ILibraryRepository> libraryRepo;
