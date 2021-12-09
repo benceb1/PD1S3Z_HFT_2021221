@@ -27,7 +27,7 @@ namespace PD1S3Z_HFT_2021221.Data
         }
 
         [HttpPut("{lendingId}")]
-        public void EndLending([FromBody] int lendingId)
+        public void EndLending([FromRoute] int lendingId)
         {
             LendingLogic.EndLending(lendingId);
         }

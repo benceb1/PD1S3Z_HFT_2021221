@@ -39,7 +39,7 @@ namespace PD1S3Z_HFT_2021221.Endpoint
             services.AddTransient<IBorrowerRepository, BorrowerRepository>();
             services.AddTransient<ILendingRepository, LendingRepository>();
 
-            services.AddTransient<DbContext, LibraryDbContext>();
+            services.AddSingleton<DbContext, LibraryDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,11 +49,7 @@ namespace PD1S3Z_HFT_2021221.Endpoint
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-            }
-
+           
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>

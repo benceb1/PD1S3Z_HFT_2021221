@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 
 namespace PD1S3Z_HFT_2021221.Models
 {
+    public enum MembershipLevel
+    {
+        Silver, Bronze, Gold
+    }
+
     [Table("borrower")]
     public class Borrower
     {
@@ -19,7 +24,7 @@ namespace PD1S3Z_HFT_2021221.Models
         public string Name { get; set; }
 
         // bronze, silver, gold
-        public string MembershipLevel { get; set; }
+        public MembershipLevel MembershipLevel { get; set; }
 
         public DateTime StartOfMembership { get; set; }
 
@@ -36,6 +41,27 @@ namespace PD1S3Z_HFT_2021221.Models
         public Borrower()
         {
             BookLendings = new HashSet<Lending>();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Borrower)
+            {
+                Borrower other = obj as Borrower;
+                return this.Id == other.Id &&
+                    this.Name == other.Name &&
+                    this.MembershipLevel == other.MembershipLevel &&
+                    this.StartOfMembership == other.StartOfMembership &&
+                    this.Age == other.Age &&
+                    this.NumberOfBooksRead == other.NumberOfBooksRead &&
+                    this.NumberOfLateLendings == other.NumberOfLateLendings;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id;
         }
     }
 }

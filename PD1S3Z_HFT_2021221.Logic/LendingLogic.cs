@@ -77,7 +77,6 @@ namespace PD1S3Z_HFT_2021221.Logic
                 Active = true,
                 BookId = book.Id,
                 BorrowerId = borrowerId,
-                LibraryId = library.Id,
                 StartDate = DateTime.Now,
                 Late = false,
                 EndDate = DateTime.Now.AddDays(7 * lendingWeeks)
@@ -87,18 +86,19 @@ namespace PD1S3Z_HFT_2021221.Logic
 
         public Library MostPopularLibrary()
         {
-            var result = from lending in LendingRepository.GetAll()
-                         group lending by lending.Library into grp
+            var lendings = LendingRepository.GetAll().ToList();
+            var result = from lending in lendings
+                         group lending by lending.Book.Library into grp
                          let count = grp.Count()
-                         orderby count descending
                          select grp.Key;
-
-            return result.FirstOrDefault();
+            
+            return result.ToList().FirstOrDefault();
         }
 
         public Book MostBelatedBook()
         {
-            var result = from lending in LendingRepository.GetAll()
+            var lendings = LendingRepository.GetAll().ToList();
+            var result = from lending in lendings
                          group lending by lending.Book into grp
                          let count = grp.Count(x => x.Late)
                          orderby count descending
@@ -110,7 +110,8 @@ namespace PD1S3Z_HFT_2021221.Logic
         // they may still be active lendings
         public Borrower MostActiveBorrower()
         {
-            var result = from lending in LendingRepository.GetAll()
+            var lendings = LendingRepository.GetAll().ToList();
+            var result = from lending in lendings
                          group lending by lending.Borrower into grp
                          let count = grp.Count()
                          orderby count descending

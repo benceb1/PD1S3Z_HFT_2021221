@@ -21,7 +21,7 @@ namespace PD1S3Z_HFT_2021221.Test
             testBorrower.Id = 11;
             testBorrower.Name = "name";
             testBorrower.Age = 10;
-            testBorrower.MembershipLevel = "bronze";
+            testBorrower.MembershipLevel = MembershipLevel.Bronze;
             testBorrower.NumberOfLateLendings = 0;
             testBorrower.StartOfMembership = DateTime.Now;
             Mock<IBorrowerRepository> borrowerRepo = new Mock<IBorrowerRepository>();

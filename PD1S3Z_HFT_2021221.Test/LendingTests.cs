@@ -31,7 +31,7 @@ namespace PD1S3Z_HFT_2021221.Test
 
             Mock<IBorrowerRepository> borrowerRepo = new Mock<IBorrowerRepository>();
             Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
-            Mock<ILendingRepository> lendingRepo = new Mock<ILendingRepository>();
+            Mock<ILendingRepository> lendingRepo = new Mock<ILendingRepository>(); 
 
             lendingRepo.Setup(repo => repo.GetAll()).Returns(lendings.AsQueryable());
 
@@ -53,7 +53,7 @@ namespace PD1S3Z_HFT_2021221.Test
             Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
             Mock<ILendingRepository> lendingRepo = new Mock<ILendingRepository>();
 
-            Lending lending = new Lending() { Id = 42, BookId = 1, BorrowerId = 1, Active = true, LibraryId = 1, StartDate = DateTime.Now };
+            Lending lending = new Lending() { Id = 42, BookId = 1, BorrowerId = 1, Active = true, StartDate = DateTime.Now };
 
             lendingRepo.Setup(repo => repo.Insert(It.IsAny<Lending>())).Returns(lending);
             bookRepo.Setup(repo => repo.GetOne(It.IsAny<int>())).Returns(new Book() { Id = 1, LibraryId = 1, Library = new Library() { Id = 1 } });
@@ -71,7 +71,8 @@ namespace PD1S3Z_HFT_2021221.Test
             Mock<IBorrowerRepository> borrowerRepo = new Mock<IBorrowerRepository>();
             Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
             Mock<ILendingRepository> lendingRepo = new Mock<ILendingRepository>();
-            
+
+
             LendingLogic logic = new LendingLogic(bookRepo.Object, lendingRepo.Object, borrowerRepo.Object);
 
             Assert.That(() => logic.StartLending(1, 1, 1),
@@ -84,6 +85,7 @@ namespace PD1S3Z_HFT_2021221.Test
             Mock<IBorrowerRepository> borrowerRepo = new Mock<IBorrowerRepository>();
             Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
             Mock<ILendingRepository> lendingRepo = new Mock<ILendingRepository>();
+
 
             LendingLogic logic = new LendingLogic(bookRepo.Object, lendingRepo.Object, borrowerRepo.Object);
 
@@ -109,6 +111,7 @@ namespace PD1S3Z_HFT_2021221.Test
             Mock<IBorrowerRepository> borrowerRepo = new Mock<IBorrowerRepository>();
             Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
             Mock<ILendingRepository> lendingRepo = new Mock<ILendingRepository>();
+
 
             lendingRepo.Setup(repo => repo.GetAll()).Returns(lendings.AsQueryable());
 
@@ -139,9 +142,9 @@ namespace PD1S3Z_HFT_2021221.Test
             Library kave = new Library() { Id = 2, Name = "Kávé-könyvtár", BookCapacity = 5 };
             Library suti = new Library() { Id = 1, Name = "Süti-könyvtár", BookCapacity = 5 };
 
-            Borrower borrower1 = new Borrower() { Id = 1, Name = "Sári", Age = 15, MembershipLevel = "bronze", NumberOfBooksRead = 2, StartOfMembership = new DateTime(2018, 1, 1), NumberOfLateLendings = 0 };
-            Borrower borrower2 = new Borrower() { Id = 2, Name = "Lajos", Age = 30, MembershipLevel = "gold", NumberOfBooksRead = 20, StartOfMembership = new DateTime(2000, 2, 4), NumberOfLateLendings = 0 };
-            Borrower borrower3 = new Borrower() { Id = 3, Name = "Erika", Age = 20, MembershipLevel = "silver", NumberOfBooksRead = 11, StartOfMembership = new DateTime(2020, 11, 20), NumberOfLateLendings = 0 };
+            Borrower borrower1 = new Borrower() { Id = 1, Name = "Sári", Age = 15, MembershipLevel = MembershipLevel.Bronze, NumberOfBooksRead = 2, StartOfMembership = new DateTime(2018, 1, 1), NumberOfLateLendings = 0 };
+            Borrower borrower2 = new Borrower() { Id = 2, Name = "Lajos", Age = 30, MembershipLevel = MembershipLevel.Gold, NumberOfBooksRead = 20, StartOfMembership = new DateTime(2000, 2, 4), NumberOfLateLendings = 0 };
+            Borrower borrower3 = new Borrower() { Id = 3, Name = "Erika", Age = 20, MembershipLevel = MembershipLevel.Silver, NumberOfBooksRead = 11, StartOfMembership = new DateTime(2020, 11, 20), NumberOfLateLendings = 0 };
 
             List<Book> books = new List<Book>() {
                 new Book() { Id = 7, Author = "Füst Milán", Title = "A feleségem története", Genre = "regény", NumberOfPages = 408, Publishing = 1942, LibraryId = kave.Id, Library= kave },
@@ -155,12 +158,12 @@ namespace PD1S3Z_HFT_2021221.Test
 
             List<Lending> lendings = new List<Lending>()
             {
-                new Lending() {Id = 1, LibraryId = kave.Id, Library = kave, Late = true, BookId = 7, Book=books[0], BorrowerId = 1, Borrower = borrower1 },
-                new Lending() {Id = 2, LibraryId = suti.Id, Library = suti, Late = true, BookId = 2, Book=books[2], BorrowerId = 1, Borrower = borrower1},
-                new Lending() {Id = 3, LibraryId = kave.Id, Library = kave, Late = true, BookId = 7, Book=books[0], BorrowerId = 1, Borrower = borrower1},
-                new Lending() {Id = 4, LibraryId = suti.Id, Library = suti, Late = true, BookId = 2, Book=books[2], BorrowerId = 2, Borrower = borrower2},
-                new Lending() {Id = 5, LibraryId = kave.Id, Library = kave, Late = true, BookId = 7, Book=books[0], BorrowerId = 2, Borrower = borrower2},
-                new Lending() {Id = 6, LibraryId = kave.Id, Library = kave, Late = true, BookId = 1, Book=books[1], BorrowerId = 3, Borrower = borrower3}
+                new Lending() {Id = 1,  Late = true, BookId = 7, Book=books[0], BorrowerId = 1, Borrower = borrower1},
+                new Lending() {Id = 2,  Late = true, BookId = 2, Book=books[2], BorrowerId = 1, Borrower = borrower1},
+                new Lending() {Id = 3,  Late = true, BookId = 7, Book=books[0], BorrowerId = 1, Borrower = borrower1},
+                new Lending() {Id = 4,  Late = true, BookId = 2, Book=books[2], BorrowerId = 2, Borrower = borrower2},
+                new Lending() {Id = 5,  Late = true, BookId = 7, Book=books[0], BorrowerId = 2, Borrower = borrower2},
+                new Lending() {Id = 6,  Late = true, BookId = 1, Book=books[1], BorrowerId = 3, Borrower = borrower3}
             };
 
             expectedBook = books[0];
@@ -169,7 +172,7 @@ namespace PD1S3Z_HFT_2021221.Test
 
             bookRepo.Setup(repo => repo.GetAll()).Returns(books.AsQueryable());
             lendingRepo.Setup(repo => repo.GetAll()).Returns(lendings.AsQueryable());
-            
+
             return new LendingLogic(bookRepo.Object, lendingRepo.Object, borrowerRepo.Object);
         }
 

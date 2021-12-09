@@ -31,10 +31,9 @@ namespace PD1S3Z_HFT_2021221.Models
         public virtual ICollection<Lending> BookLendings { get; set; }
 
         [NotMapped]
-        [JsonIgnore]
-
         public virtual Library Library { get; set; }
 
+        [ForeignKey(nameof(Library))]
         public int LibraryId { get; set; }
 
         public Book()

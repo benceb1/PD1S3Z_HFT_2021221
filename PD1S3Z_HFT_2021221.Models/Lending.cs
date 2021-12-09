@@ -24,23 +24,17 @@ namespace PD1S3Z_HFT_2021221.Models
 
         public bool Late { get; set; }
 
-        public int LibraryId { get; set; }
-
-        public int BorrowerId { get; set; }
-
-        public int BookId { get; set; }
-
         [NotMapped]
-        [JsonIgnore]
         public virtual Borrower Borrower { get; set; }
 
         [NotMapped]
-        [JsonIgnore]
-        public virtual Library Library { get; set; }
-
-        [NotMapped]
-        [JsonIgnore]
         public virtual Book Book { get; set; }
+
+        [ForeignKey(nameof(Borrower))]
+        public int BorrowerId { get; set; }
+
+        [ForeignKey(nameof(Book))]
+        public int BookId { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -51,8 +45,7 @@ namespace PD1S3Z_HFT_2021221.Models
                     this.StartDate == other.StartDate &&
                     this.EndDate == other.EndDate &&
                     this.Active == other.Active &&
-                    this.Book.Equals(other.Book) &&
-                    this.LibraryId == other.LibraryId &&
+                    this.BookId == other.BookId &&
                     this.BorrowerId == other.BorrowerId;
             }
             return false;

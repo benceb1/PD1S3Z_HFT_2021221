@@ -24,16 +24,28 @@ namespace PD1S3Z_HFT_2021221.Models
         [JsonIgnore]
         public virtual ICollection<Book> Books { get; set; }
 
-        [NotMapped]
-        [JsonIgnore]
-        public virtual ICollection<Lending> BookLendings { get; set; }
-
         // books
 
         public Library()
         {
             Books = new HashSet<Book>();
-            BookLendings = new HashSet<Lending>();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Library)
+            {
+                Library other = obj as Library;
+                return this.Id == other.Id &&
+                    this.Name == other.Name &&
+                    this.BookCapacity == other.BookCapacity;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id;
         }
     }
 }

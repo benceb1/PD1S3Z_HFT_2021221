@@ -10,7 +10,7 @@ namespace PD1S3Z_HFT_2021221.Data
 {
     public class LibraryDbContext : DbContext
     {
-        public virtual DbSet<Book> Book { get; set; }
+        public virtual DbSet<Book> Book { get; set; }   
         public virtual DbSet<Lending> BookLending { get; set; }
         public virtual DbSet<Borrower> Borrower { get; set; }
         public virtual DbSet<Library> Library { get; set; }
@@ -30,7 +30,7 @@ namespace PD1S3Z_HFT_2021221.Data
             {
                 optionsBuilder.
                     UseLazyLoadingProxies().
-                    UseSqlServer(@"data source=(LocalDB)\MSSQLLocalDB;attachdbfilename=|DataDirectory|\ProjectDb.mdf;integrated security=True;MultipleActiveResultSets=True");
+                    UseSqlServer(@"data source=(LocalDB)\MSSQLLocalDB;attachdbfilename=|DataDirectory|\ProjectDb.mdf;Integrated Security=True;MultipleActiveResultSets=True");
             }
         }
 
@@ -47,37 +47,47 @@ namespace PD1S3Z_HFT_2021221.Data
             Book book6 = new Book() { Id = 5, Author = "J. K. Rowling", Title = "Harry Potter és a titkok kamrája", Genre = "szórakoztató irodalom", NumberOfPages = 315, Publishing = 1998, LibraryId = kave.Id };
             Book book7 = new Book() { Id = 6, Author = "Vladimir Nabokov", Title = "Lolita", Genre = "regény", NumberOfPages = 491, Publishing = 1955, LibraryId = suti.Id };
 
-            Borrower borrower1 = new Borrower() { Id = 3, Name = "Sári", Age = 15, MembershipLevel = "bronze", NumberOfBooksRead = 2, StartOfMembership = new DateTime(2018, 1, 1), NumberOfLateLendings = 0 };
-            Borrower borrower2 = new Borrower() { Id = 1, Name = "Lajos", Age = 30, MembershipLevel = "gold", NumberOfBooksRead = 20, StartOfMembership = new DateTime(2000, 2, 4), NumberOfLateLendings = 0 };
-            Borrower borrower3 = new Borrower() { Id = 2, Name = "Erika", Age = 20, MembershipLevel = "silver", NumberOfBooksRead = 11, StartOfMembership = new DateTime(2020, 11, 20), NumberOfLateLendings = 0 };
+            Borrower borrower1 = new Borrower() { Id = 3, Name = "Sári", Age = 15, MembershipLevel = MembershipLevel.Bronze, NumberOfBooksRead = 2, StartOfMembership = new DateTime(2018, 1, 1), NumberOfLateLendings = 0 };
+            Borrower borrower2 = new Borrower() { Id = 1, Name = "Lajos", Age = 30, MembershipLevel = MembershipLevel.Gold, NumberOfBooksRead = 20, StartOfMembership = new DateTime(2000, 2, 4), NumberOfLateLendings = 0 };
+            Borrower borrower3 = new Borrower() { Id = 2, Name = "Erika", Age = 20, MembershipLevel = MembershipLevel.Silver, NumberOfBooksRead = 11, StartOfMembership = new DateTime(2020, 11, 20), NumberOfLateLendings = 0 };
+
+            List<Lending> lendings = new List<Lending>()
+            {
+                new Lending() {Id = 1,  Late = false, BookId = 7, BorrowerId = 1, StartDate = new DateTime(2021, 9, 11), EndDate = new DateTime(2021, 10, 11), Active = false },
+                new Lending() {Id = 2,  Late = false, BookId = 2,  BorrowerId = 1, StartDate = new DateTime(2021, 9, 11), EndDate = new DateTime(2021, 10, 11), Active = false },
+                new Lending() {Id = 3, Late = false, BookId = 7,  BorrowerId = 1, StartDate = new DateTime(2021, 9, 11), EndDate = new DateTime(2021, 10, 11), Active = false },
+                new Lending() {Id = 4,  Late = false, BookId = 2,  BorrowerId = 2, StartDate = new DateTime(2021, 9, 11), EndDate = new DateTime(2021, 10, 11), Active = false },
+                new Lending() {Id = 5,  Late = false, BookId = 7,  BorrowerId = 2, StartDate = new DateTime(2021, 9, 11), EndDate = new DateTime(2021, 10, 11), Active = false },
+                new Lending() {Id = 6, Late = false, BookId = 1,  BorrowerId = 3, StartDate = new DateTime(2021, 9, 11), EndDate = new DateTime(2021, 10, 11), Active = false }
+            };
 
             modelBuilder.Entity<Book>(entity =>
             {
                 entity.HasOne(book => book.Library)
                     .WithMany(library => library.Books)
                     .HasForeignKey(book => book.LibraryId)
-                    .OnDelete(DeleteBehavior.NoAction);
-
-                entity.HasMany(book => book.BookLendings)
-                    .WithOne(bookLending => bookLending.Book);
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
 
             modelBuilder.Entity<Lending>(entity =>
             {
                 entity.HasOne(bookLending => bookLending.Borrower)
-                    .WithMany(borrower => borrower.BookLendings);
-
-                entity.HasOne(bookLending => bookLending.Library)
-                    .WithMany(lib => lib.BookLendings);
+                    .WithMany(borrower => borrower.BookLendings)
+                    .HasForeignKey(lending => lending.BorrowerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(bookLending => bookLending.Book)
-                    .WithMany(book => book.BookLendings);
+                    .WithMany(book => book.BookLendings)
+                    .HasForeignKey(lending => lending.BookId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
             });
 
             modelBuilder.Entity<Library>().HasData(kave, suti);
             modelBuilder.Entity<Book>().HasData(book1, book2, book3, book4, book5, book6, book7);
             modelBuilder.Entity<Borrower>().HasData(borrower1, borrower2, borrower3);
+            modelBuilder.Entity<Lending>().HasData(lendings);
         }
     }
 }

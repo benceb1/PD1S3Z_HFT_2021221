@@ -36,15 +36,16 @@ namespace PD1S3Z_HFT_2021221.Logic
 
         public IList<Borrower> GetLateBorrowers()
         {
-            var result =  from lending in LendingRepository.GetAll()
-                   where lending.Active && lending.EndDate < DateTime.Now
+            var lendings = LendingRepository.GetAll();
+            var result =  from lending in lendings
+                          where lending.Active && lending.EndDate < DateTime.Now
                    select lending.Borrower;
             return result.ToList();
         }
 
         public Borrower Insert(Borrower borrower)
         {
-            borrower.MembershipLevel = "bronze";
+            borrower.MembershipLevel = MembershipLevel.Bronze;
             borrower.NumberOfLateLendings = 0;
             borrower.StartOfMembership = DateTime.Now;
             return BorrowerRepository.Insert(borrower);
