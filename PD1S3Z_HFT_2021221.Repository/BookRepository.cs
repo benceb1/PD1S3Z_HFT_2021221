@@ -26,19 +26,18 @@ namespace PD1S3Z_HFT_2021221.Repository
             return entity;
         }
 
+        public void ModifyLibrary(int id, int newLibId)
+        {
+            Book book = GetOne(id);
+            book.LibraryId = newLibId;
+            ctx.SaveChanges();
+        }
+
         public override bool Remove(int id)
         {
             Book book = GetOne(id);
-            try
-            {
-                if (book == null) throw new InvalidOperationException("Book not found!");
-                ctx.Set<Book>().Remove(book);
-                ctx.SaveChanges();
-            }
-            catch
-            {
-                return false;
-            }
+            ctx.Set<Book>().Remove(book);
+            ctx.SaveChanges();
             return true;
         }
 

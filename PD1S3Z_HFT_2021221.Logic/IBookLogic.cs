@@ -14,5 +14,7 @@ namespace PD1S3Z_HFT_2021221.Logic
         IList<AvgPagesResult> AvgOfPageNumbersInLibraries();
         Book GetOneById(int Id);
         Book Insert(Book book);
+        void ModifyLibrary(int id, int newLibId);
+        void Delete(int id);
     }
 }

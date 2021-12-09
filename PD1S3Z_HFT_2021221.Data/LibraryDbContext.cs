@@ -48,12 +48,12 @@ namespace PD1S3Z_HFT_2021221.Data
             Book book7 = new Book() { Id = 6, Author = "Vladimir Nabokov", Title = "Lolita", Genre = "regény", NumberOfPages = 491, Publishing = 1955, LibraryId = suti.Id };
 
             Borrower borrower1 = new Borrower() { Id = 3, Name = "Sári", Age = 15, MembershipLevel = MembershipLevel.Bronze, NumberOfBooksRead = 2, StartOfMembership = new DateTime(2018, 1, 1), NumberOfLateLendings = 0 };
-            Borrower borrower2 = new Borrower() { Id = 1, Name = "Lajos", Age = 30, MembershipLevel = MembershipLevel.Gold, NumberOfBooksRead = 20, StartOfMembership = new DateTime(2000, 2, 4), NumberOfLateLendings = 0 };
+            Borrower borrower2 = new Borrower() { Id = 1, Name = "Lajos", Age = 30, MembershipLevel = MembershipLevel.Gold, NumberOfBooksRead = 20, StartOfMembership = new DateTime(2000, 2, 4), NumberOfLateLendings = 1 };
             Borrower borrower3 = new Borrower() { Id = 2, Name = "Erika", Age = 20, MembershipLevel = MembershipLevel.Silver, NumberOfBooksRead = 11, StartOfMembership = new DateTime(2020, 11, 20), NumberOfLateLendings = 0 };
 
             List<Lending> lendings = new List<Lending>()
             {
-                new Lending() {Id = 1,  Late = false, BookId = 7, BorrowerId = 1, StartDate = new DateTime(2021, 9, 11), EndDate = new DateTime(2021, 10, 11), Active = false },
+                new Lending() {Id = 1,  Late = false, BookId = 7, BorrowerId = 1, StartDate = new DateTime(2021, 9, 11), EndDate = new DateTime(2021, 10, 11), Active = true },
                 new Lending() {Id = 2,  Late = false, BookId = 2,  BorrowerId = 1, StartDate = new DateTime(2021, 9, 11), EndDate = new DateTime(2021, 10, 11), Active = false },
                 new Lending() {Id = 3, Late = false, BookId = 7,  BorrowerId = 1, StartDate = new DateTime(2021, 9, 11), EndDate = new DateTime(2021, 10, 11), Active = false },
                 new Lending() {Id = 4,  Late = false, BookId = 2,  BorrowerId = 2, StartDate = new DateTime(2021, 9, 11), EndDate = new DateTime(2021, 10, 11), Active = false },
@@ -66,7 +66,7 @@ namespace PD1S3Z_HFT_2021221.Data
                 entity.HasOne(book => book.Library)
                     .WithMany(library => library.Books)
                     .HasForeignKey(book => book.LibraryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
 
@@ -75,13 +75,12 @@ namespace PD1S3Z_HFT_2021221.Data
                 entity.HasOne(bookLending => bookLending.Borrower)
                     .WithMany(borrower => borrower.BookLendings)
                     .HasForeignKey(lending => lending.BorrowerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasOne(bookLending => bookLending.Book)
                     .WithMany(book => book.BookLendings)
                     .HasForeignKey(lending => lending.BookId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Library>().HasData(kave, suti);

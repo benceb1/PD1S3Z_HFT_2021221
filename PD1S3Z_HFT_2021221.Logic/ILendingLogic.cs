@@ -23,10 +23,12 @@ namespace PD1S3Z_HFT_2021221.Logic
 
         IList<Lending> GetNonActiveLendings();
 
-        public Library MostPopularLibrary();
+        IList <Library> MostPopularLibrary();
 
-        public Book MostBelatedBook();
+        IList <Book> MostBelatedBook();
 
-        public Borrower MostActiveBorrower();
+        IList <Borrower> MostActiveBorrower();
+
+        void Delete(int id);
     }
 }

@@ -32,6 +32,12 @@ namespace PD1S3Z_HFT_2021221.Data
             BorrowerLogic.DeleteBorrower(borrowerId);
         }
 
+        [HttpPut("{id}")]
+        public void ModifyName([FromRoute]int id, [FromBody]ModifyBorrowerNameRequest req)
+        {
+            BorrowerLogic.ModifyName(id, req.newName);
+        }
+
         [HttpGet] 
         public IEnumerable<Borrower> GetAll()
         {

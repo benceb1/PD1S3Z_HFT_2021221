@@ -38,6 +38,18 @@ namespace PD1S3Z_HFT_2021221.Data
             return BookLogic.GetOneById(bookId);
         }
 
+        [HttpDelete("{id}")]
+        public void DeleteBook([FromRoute] int id)
+        {
+            BookLogic.Delete(id);
+        }
+
+        [HttpPut("{id}")]
+        public void ModifyLibrary([FromRoute]int id, [FromBody]ModifyLibRequest req)
+        {
+            BookLogic.ModifyLibrary(id, req.newLibId);
+        }
+
         [HttpGet("library/{libId}")]
         public IEnumerable<Book> GetBooksByLibId([FromRoute] int libId)
         {

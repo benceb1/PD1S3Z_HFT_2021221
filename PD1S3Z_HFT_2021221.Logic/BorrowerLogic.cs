@@ -50,5 +50,10 @@ namespace PD1S3Z_HFT_2021221.Logic
             borrower.StartOfMembership = DateTime.Now;
             return BorrowerRepository.Insert(borrower);
         }
+
+        public void ModifyName(int id, string newName)
+        {
+            BorrowerRepository.ModifyName(id, newName);
+        }
     }
 }

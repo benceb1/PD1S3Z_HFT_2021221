@@ -55,5 +55,10 @@ namespace PD1S3Z_HFT_2021221.Models
         {
             return Id;
         }
+
+        public override string ToString()
+        {
+            return $"[ id: {Id}, startDate: {StartDate}, endDate: {EndDate}, active: {Active}, bookId: {BookId}, borrowerId: {BorrowerId} ]";
+        }
     }
 }

@@ -32,6 +32,12 @@ namespace PD1S3Z_HFT_2021221.Data
             LendingLogic.EndLending(lendingId);
         }
 
+        [HttpDelete("{id}")]
+        public void DeleteLending([FromRoute] int id)
+        {
+            LendingLogic.Delete(id);
+        }
+
         [HttpGet]
         public IEnumerable<Lending> GetLendings()
         {
@@ -39,28 +45,23 @@ namespace PD1S3Z_HFT_2021221.Data
         } 
 
         [HttpGet("mostPopularLib")]
-        public Library GetMostPopularLibrary()
+        public IEnumerable<Library> GetMostPopularLibrary()
         {
             return LendingLogic.MostPopularLibrary();
         }
 
         [HttpGet("mostBelatedBook")]
-        public Book GetMostBelatedBook()
+        public IEnumerable<Book> GetMostBelatedBook()
         {
             return LendingLogic.MostBelatedBook();
         }
 
         [HttpGet("mostActiveBorrower")]
-        public Borrower MostActiveBorrower()
+        public IEnumerable<Borrower> MostActiveBorrower()
         {
             return LendingLogic.MostActiveBorrower();
         }
     }
 
-    public class NewLendingRequest
-    {
-        public int borrowerId { get; set; }
-        public int lendingWeeks { get; set; }
-        public int bookId { get; set; }
-    }
+
 }

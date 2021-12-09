@@ -19,6 +19,11 @@ namespace PD1S3Z_HFT_2021221.Logic
             LibraryRepository = libraryRepository;
         }
 
+        public void Delete(int id)
+        {
+            BookRepository.Remove(id);
+        }
+
         public IList<Book> GetAllBooks()
         {
             return BookRepository.GetAll().ToList();
@@ -63,6 +68,11 @@ namespace PD1S3Z_HFT_2021221.Logic
                         AvgPages = grp.Average(item => item.Pages)
                     };
             return q.ToList();
+        }
+
+        public void ModifyLibrary(int id, int newLibId)
+        {
+            BookRepository.ModifyLibrary(id, newLibId);
         }
     }
 }

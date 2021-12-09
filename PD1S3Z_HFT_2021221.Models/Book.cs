@@ -61,5 +61,10 @@ namespace PD1S3Z_HFT_2021221.Models
         {
             return Id;
         }
+
+        public override string ToString()
+        {
+            return $"[ id: {Id}, title: {Title}, author: {Author}, number of pages: {NumberOfPages}, publishing: {Publishing}, genre: {Genre}, libraryId: {LibraryId} ]";
+        }
     }
 }

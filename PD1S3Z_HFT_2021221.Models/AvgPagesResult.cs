@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PD1S3Z_HFT_2021221.Logic
+namespace PD1S3Z_HFT_2021221.Models
 {
     public class AvgPagesResult
     {
@@ -25,6 +25,11 @@ namespace PD1S3Z_HFT_2021221.Logic
         public override int GetHashCode()
         {
             return AvgPages.GetHashCode() + LibraryName.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return $"libraryName: {LibraryName}, avgPages: {AvgPages}";
         }
     }
 }

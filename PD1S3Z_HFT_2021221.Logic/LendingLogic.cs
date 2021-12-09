@@ -21,6 +21,11 @@ namespace PD1S3Z_HFT_2021221.Logic
             BorrowerRepository = borrowerRepository;
         }
 
+        public void Delete(int id)
+        {
+            LendingRepository.Remove(id);
+        }
+
         public Lending EndLending(int lendingId)
         {
             Lending lending = LendingRepository.GetOne(lendingId);
@@ -84,18 +89,19 @@ namespace PD1S3Z_HFT_2021221.Logic
             return LendingRepository.Insert(lending);
         }
 
-        public Library MostPopularLibrary()
+        public IList<Library> MostPopularLibrary()
         {
             var lendings = LendingRepository.GetAll().ToList();
             var result = from lending in lendings
                          group lending by lending.Book.Library into grp
                          let count = grp.Count()
+                         orderby count descending
                          select grp.Key;
-            
-            return result.ToList().FirstOrDefault();
+            var lib = result.ToList().FirstOrDefault();
+            return new List<Library>() { lib };
         }
 
-        public Book MostBelatedBook()
+        public IList<Book> MostBelatedBook()
         {
             var lendings = LendingRepository.GetAll().ToList();
             var result = from lending in lendings
@@ -103,12 +109,13 @@ namespace PD1S3Z_HFT_2021221.Logic
                          let count = grp.Count(x => x.Late)
                          orderby count descending
                          select grp.Key;
-            return result.FirstOrDefault();
+            var book = result.FirstOrDefault();
+            return new List<Book>() { book };
         }
 
         // the number of books is incremented only when the lending is over
         // they may still be active lendings
-        public Borrower MostActiveBorrower()
+        public IList<Borrower> MostActiveBorrower()
         {
             var lendings = LendingRepository.GetAll().ToList();
             var result = from lending in lendings
@@ -116,7 +123,8 @@ namespace PD1S3Z_HFT_2021221.Logic
                          let count = grp.Count()
                          orderby count descending
                          select grp.Key;
-            return result.FirstOrDefault();
+            var borrower = result.FirstOrDefault();
+            return new List<Borrower>() { borrower };
         }
     }
 }
