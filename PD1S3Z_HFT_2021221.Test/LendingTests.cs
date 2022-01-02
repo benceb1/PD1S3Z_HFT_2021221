@@ -180,7 +180,7 @@ namespace PD1S3Z_HFT_2021221.Test
         public void TestGetPopularLibrary()
         {
             var logic = CreateLogicWithMocks();
-            var lib = logic.MostPopularLibrary();
+            var lib = logic.MostPopularLibrary().First();
 
             Assert.That(lib, Is.EqualTo(expectedLibrary));
             lendingRepo.Verify(repo => repo.GetAll(), Times.Exactly(1));
@@ -191,7 +191,7 @@ namespace PD1S3Z_HFT_2021221.Test
         public void TestGetMostBelatedBook()
         {
             var logic = CreateLogicWithMocks();
-            var book = logic.MostBelatedBook();
+            var book = logic.MostBelatedBook().First();
 
             Assert.That(book, Is.EqualTo(expectedBook));
             lendingRepo.Verify(repo => repo.GetAll(), Times.Exactly(1));
@@ -202,7 +202,7 @@ namespace PD1S3Z_HFT_2021221.Test
         public void TestMostActiveBorrower()
         {
             var logic = CreateLogicWithMocks();
-            var borrower = logic.MostActiveBorrower();
+            var borrower = logic.MostActiveBorrower().First();
 
             Assert.That(borrower, Is.EqualTo(expectedBorrower));
             lendingRepo.Verify(repo => repo.GetAll(), Times.Exactly(1));
