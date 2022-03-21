@@ -32,6 +32,12 @@ namespace PD1S3Z_HFT_2021221.Data
             return BookLogic.GetAllBooks();
         }
 
+        [HttpPut]
+        public void Put([FromBody] Book value)
+        {
+            this.BookLogic.Update(value);
+        }
+
         [HttpGet("{bookId}")]
         public Book GetBookById([FromRoute] int bookId)
         {

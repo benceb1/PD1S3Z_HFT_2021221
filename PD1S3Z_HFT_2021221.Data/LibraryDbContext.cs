@@ -37,7 +37,7 @@ namespace PD1S3Z_HFT_2021221.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             Library kave = new Library() { Id = 2, Name = "Kávé-könyvtár", BookCapacity = 5 };
-            Library suti = new Library() { Id = 1, Name = "Süti-könyvtár", BookCapacity = 5 };
+            Library suti = new Library() { Id = 1, Name = "A-könyvtár", BookCapacity = 5 };
 
             Book book1 = new Book() { Id = 7, Author = "Füst Milán", Title = "A feleségem története", Genre = "regény", NumberOfPages = 408, Publishing = 1942, LibraryId = kave.Id };
             Book book2 = new Book() { Id = 1, Author = "Stefan Zweig", Title = "Sakknovella", Genre = "novella", NumberOfPages = 97, Publishing = 1941, LibraryId = kave.Id };

@@ -9,7 +9,6 @@ namespace PD1S3Z_HFT_2021221.Repository
 {
     public interface IBookRepository : IRepository<Book>
     {
-        void Update(int id, Book book);
         void ModifyLibrary(int id, int newLibId);
     }
 }

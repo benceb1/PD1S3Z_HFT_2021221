@@ -17,7 +17,6 @@ namespace PD1S3Z_HFT_2021221.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        [MaxLength(5)]
         public int BookCapacity { get; set; }
 
         [NotMapped]

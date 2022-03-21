@@ -63,18 +63,23 @@ namespace PD1S3Z_HFT_2021221.Repository
             return true;
         }
 
-        public void Update(int id, Borrower newBorrower)
-        {
-            Borrower borrower = GetOne(id);
-            if (borrower == null) throw new InvalidOperationException("Borrower not found!");
-            borrower = newBorrower;
-            ctx.SaveChanges();
-        }
-
         public void ModifyName(int id, string newName)
         {
             Borrower borrower = GetOne(id);
             borrower.Name = newName;
+            ctx.SaveChanges();
+        }
+
+        public override void Update(Borrower entity)
+        {
+            var old = GetOne(entity.Id);
+            foreach (var prop in old.GetType().GetProperties())
+            {
+                if (prop.GetAccessors().FirstOrDefault(t => t.IsVirtual) == null)
+                {
+                    prop.SetValue(old, prop.GetValue(entity));
+                }
+            }
             ctx.SaveChanges();
         }
     }

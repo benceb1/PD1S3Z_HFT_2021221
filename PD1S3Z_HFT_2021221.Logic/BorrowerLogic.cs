@@ -55,5 +55,10 @@ namespace PD1S3Z_HFT_2021221.Logic
         {
             BorrowerRepository.ModifyName(id, newName);
         }
+
+        public void Update(Borrower item)
+        {
+            this.BorrowerRepository.Update(item);
+        }
     }
 }

@@ -41,11 +41,16 @@ namespace PD1S3Z_HFT_2021221.Repository
             return true;
         }
 
-        public void Update(int id, Book newBook)
+        public override void Update(Book item)
         {
-            Book book = GetOne(id);
-            if (book == null) throw new InvalidOperationException("Book not found!");
-            book = newBook;
+            var old = GetOne(item.Id);
+            foreach (var prop in old.GetType().GetProperties())
+            {
+                if (prop.GetAccessors().FirstOrDefault(t => t.IsVirtual) == null)
+                {
+                    prop.SetValue(old, prop.GetValue(item));
+                }
+            }
             ctx.SaveChanges();
         }
     }

@@ -9,7 +9,6 @@ namespace PD1S3Z_HFT_2021221.Repository
 {
     public interface IBorrowerRepository : IRepository<Borrower>
     {
-        void Update(int id, Borrower borrower);
         void IncrementLateLendingNumber(int borrowerId);
         void IncrementBooksRead(int borrowerId);
         void ModifyName(int id, string newName);

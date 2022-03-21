@@ -58,5 +58,15 @@ namespace PD1S3Z_HFT_2021221.Repository
             bookLending = newBookLending;
             ctx.SaveChanges(); 
         }
+
+        public override void Update(Lending entity)
+        {
+            var old = GetOne(entity.Id);
+            foreach (var prop in old.GetType().GetProperties())
+            {
+                prop.SetValue(old, prop.GetValue(entity));
+            }
+            ctx.SaveChanges();
+        }
     }
 }

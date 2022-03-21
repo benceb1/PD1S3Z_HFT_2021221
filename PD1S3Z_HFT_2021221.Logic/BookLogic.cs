@@ -74,5 +74,10 @@ namespace PD1S3Z_HFT_2021221.Logic
         {
             BookRepository.ModifyLibrary(id, newLibId);
         }
+
+        public void Update(Book item)
+        {
+            this.BookRepository.Update(item);
+        }
     }
 }

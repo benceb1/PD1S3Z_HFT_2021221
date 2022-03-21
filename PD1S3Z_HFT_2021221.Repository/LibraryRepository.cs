@@ -53,11 +53,16 @@ namespace PD1S3Z_HFT_2021221.Repository
             return true;
         }
 
-        public void Update(int id, Library library)
+        public override void Update(Library entity)
         {
-            Library bookLending = GetOne(id);
-            if (bookLending == null) throw new InvalidOperationException("Library not found!");
-            bookLending = library;
+            var old = GetOne(entity.Id);
+            foreach (var prop in old.GetType().GetProperties())
+            {
+                if (prop.GetAccessors().FirstOrDefault(t => t.IsVirtual) == null)
+                {
+                    prop.SetValue(old, prop.GetValue(entity));
+                }
+            }
             ctx.SaveChanges();
         }
     }
