@@ -29,6 +29,11 @@ namespace PD1S3Z_HFT_2021221.Logic
             return BorrowerRepository.Remove(borrowerId);
         }
 
+        public Borrower GetBorrowerById(int borrowerId)
+        {
+            return this.BorrowerRepository.GetOne(borrowerId);
+        }
+
         public IList<Borrower> GetBorrowers()
         {
             return BorrowerRepository.GetAll().ToList();

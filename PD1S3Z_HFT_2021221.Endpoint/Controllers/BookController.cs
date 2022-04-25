@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using PD1S3Z_HFT_2021221.Endpoint.Services;
 using PD1S3Z_HFT_2021221.Logic;
 using PD1S3Z_HFT_2021221.Models;
 using System;
@@ -14,16 +16,20 @@ namespace PD1S3Z_HFT_2021221.Data
     public class BookController : ControllerBase
     {
         IBookLogic BookLogic;
+        IHubContext<SignalRHub> hub;
 
-        public BookController(IBookLogic bookLogic)
+        public BookController(IBookLogic bookLogic, IHubContext<SignalRHub> hub)
         {
             BookLogic = bookLogic;
+            this.hub = hub;
         }
 
         [HttpPost]
-        public Book Insert([FromBody]Book book)
+        public void Insert([FromBody]Book book)
         {
-            return BookLogic.Insert(book);
+            BookLogic.Insert(book);
+            this.hub.Clients.All.SendAsync("BookCreated", book);
+
         }
 
         [HttpGet] 
@@ -36,6 +42,8 @@ namespace PD1S3Z_HFT_2021221.Data
         public void Put([FromBody] Book value)
         {
             this.BookLogic.Update(value);
+            this.hub.Clients.All.SendAsync("BookUpdated", value);
+
         }
 
         [HttpGet("{bookId}")]
@@ -47,7 +55,10 @@ namespace PD1S3Z_HFT_2021221.Data
         [HttpDelete("{id}")]
         public void DeleteBook([FromRoute] int id)
         {
-            BookLogic.Delete(id);
+            var bookToDelete = this.BookLogic.GetOneById(id);
+            this.BookLogic.Delete(id);
+            this.hub.Clients.All.SendAsync("BookDeleted", bookToDelete);
+
         }
 
         [HttpPut("{id}")]

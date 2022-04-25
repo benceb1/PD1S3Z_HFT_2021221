@@ -36,7 +36,6 @@ namespace PD1S3Z_HFT_2021221.Endpoint.Controllers
         [HttpPost]
         public void Create([FromBody] Library value)
         {
-            System.Console.WriteLine("asdf");
             this.logic.Create(value);
             this.hub.Clients.All.SendAsync("LibraryCreated", value);
         }

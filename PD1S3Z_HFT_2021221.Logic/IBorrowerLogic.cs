@@ -15,6 +15,8 @@ namespace PD1S3Z_HFT_2021221.Logic
 
         public IList<Borrower> GetBorrowers();
 
+        public Borrower GetBorrowerById(int borrowerId);
+
         public IList<Borrower> GetLateBorrowers();
 
         public void ModifyName(int id, string newName);
