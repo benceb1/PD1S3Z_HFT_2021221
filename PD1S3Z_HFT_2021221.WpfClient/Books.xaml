@@ -7,8 +7,54 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Books">
-
+    <Page.DataContext>
+        <local:BooksPageViewModel />
+    </Page.DataContext>
     <Grid>
-        <Label Content="books" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+
+        <ListBox ItemsSource="{Binding Books}" SelectedItem="{Binding SelectedBook}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Title}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <!--//<title> <author> <number_of_pages(number)> <genre> <publishing(number)> <library_id(muber)>-->
+        <StackPanel Grid.Column="1">
+            <Label Content="Title" Background="LightBlue" Padding="5" />
+            <TextBox Text="{Binding SelectedBook.Title}" Padding="5" Margin="0,0,0,1" />
+
+            <Label Content="Author" Background="LightBlue" Padding="5" />
+            <TextBox Text="{Binding SelectedBook.Author}" Padding="5" Margin="0,0,0,1" />
+
+            <Label Content="Number of pages" Background="LightBlue" Padding="5" />
+            <TextBox Text="{Binding SelectedBook.NumberOfPages}" Padding="5" Margin="0,0,0,1" />
+
+            <Label Content="Genre" Background="LightBlue" Padding="5" />
+            <TextBox Text="{Binding SelectedBook.Genre}" Padding="5" Margin="0,0,0,1" />
+
+            <Label Content="Publishing" Background="LightBlue" Padding="5" />
+            <TextBox Text="{Binding SelectedBook.Publishing}" Padding="5" Margin="0,0,0,1" />
+
+
+            <Label Content="Library" Background="LightBlue" Padding="5" />
+            <ComboBox ItemsSource="{Binding Libraries}" SelectedItem="{Binding SelectedLibrary}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Button Content="Create Book" Command="{Binding CreateBookCommand}" Margin="1" Padding="10" />
+            <Button Content="Delete Book" Command="{Binding DeleteBookCommand}" Margin="1" Padding="10" />
+            <Button Content="Update Book" Command="{Binding UpdateBookCommand}" Margin="1" Padding="10" />
+        </StackPanel>
     </Grid>
 </Page>

@@ -42,7 +42,7 @@ namespace PD1S3Z_HFT_2021221.WpfClient
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            MainFrame.Content = new Books();
+            
         }
     }
 }
