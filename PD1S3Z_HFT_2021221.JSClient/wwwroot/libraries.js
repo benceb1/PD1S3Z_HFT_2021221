@@ -56,7 +56,9 @@ function display() {
     libraries.forEach(t => {
         document.getElementById('resultarea').innerHTML +=
             `<tr><td>` + t.id + "</td><td>"
-            + t.name + "</td><td>" +
+        + t.name + "</td>" +
+        "<td>" + t.bookCapacity + "</td>"
+        +"<td>" +
         `<button style="margin: 10px;" class="waves-effect waves-light btn" type="button" onclick="remove(${t.id})">Delete</button>` +
         `<button style="margin: 10px;" class="waves-effect waves-light btn" type="button" onclick="select(${t.id})">Select</button>`
 

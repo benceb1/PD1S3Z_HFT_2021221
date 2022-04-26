@@ -45,18 +45,19 @@ async function start() {
 async function getdata() {
     await fetch('http://localhost:26706/book')
         .then(x => x.json())
-        .then(y => {
+        .then(async y => {
             books = y;
             console.log(books)
+            await fetch('http://localhost:26706/library')
+                .then(x => x.json())
+                .then(y => {
+                    libraries = y;
+                    displaySelect()
+                });
             display();
         });
 
-    await fetch('http://localhost:26706/library')
-        .then(x => x.json())
-        .then(y => {
-            libraries = y;
-            displaySelect()
-        });
+    
 }
 
 function displaySelect() {
@@ -74,9 +75,18 @@ function displaySelect() {
 function display() {
     document.getElementById('resultarea').innerHTML = "";
     books.forEach(t => {
+        let libName = libraries.filter(l => l.id === t.libraryId)[0].name
         document.getElementById('resultarea').innerHTML +=
             "<tr><td>" + t.id + "</td><td>"
-            + t.title + "</td><td>" +
+        + t.title + "</td>"
+
+        + "<td>" + t.author + "</td>"
+        + "<td>" + t.genre + "</td>"
+        + "<td>" + t.numberOfPages + "</td>"
+        + "<td>" + t.publishing + "</td>"
+            + "<td>" + libName + "</td>"
+
+        + "<td>" +
         `<button style="margin: 10px;" class="waves-effect waves-light btn" type="button" onclick="remove(${t.id})">Delete</button>` +
         `<button style="margin: 10px;" class="waves-effect waves-light btn" type="button" onclick="select(${t.id})">Select</button>`
             + "</td></tr>";

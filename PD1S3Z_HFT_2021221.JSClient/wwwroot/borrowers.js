@@ -51,15 +51,35 @@ async function getdata() {
 }
 
 function display() {
+
     document.getElementById('resultarea').innerHTML = "";
     borrowers.forEach(t => {
+        let lvlName = getMembershipName(t.membershipLevel);
+        console.log(lvlName)
         document.getElementById('resultarea').innerHTML +=
             "<tr><td>" + t.id + "</td><td>"
-            + t.name + "</td><td>" +
+        + t.name + "</td>" +
+        "<td>" + t.age + "</td>"+
+        "<td>" + lvlName + "</td>" +
+        "<td>" + t.numberOfBooksRead + "</td>" +
+        "<td>" + t.numberOfLateLendings + "</td>" +
+        "<td>" + t.startOfMembership + "</td>" 
+
+        +"<td>" +
         `<button style="margin: 10px;" class="waves-effect waves-light btn" type="button" onclick="remove(${t.id})">Delete</button>` +
         `<button style="margin: 10px;" class="waves-effect waves-light btn" type="button" onclick="select(${t.id})">Select</button>`
             + "</td></tr>";
     });
+}
+
+const getMembershipName = (num) => {
+    if (num === 0) {
+        return "Bronze"
+    } else if (num === 1) {
+        return "Silver"
+    } else {
+        return "Gold"
+    }
 }
 
 const select = (id) => {
