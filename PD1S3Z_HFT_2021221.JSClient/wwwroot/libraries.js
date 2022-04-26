@@ -19,6 +19,10 @@ function setupSignalR() {
         getdata();
     });
 
+    connection.on("LibraryUpdated", (user, message) => {
+        getdata();
+    });
+
     connection.onclose(async () => {
         await start();
     });
@@ -82,6 +86,29 @@ function remove(id) {
             getdata();
         })
         .catch((error) => { console.error('Error:', error); });
+
+}
+
+function update() {
+    if (selectedLib) {
+        let name = document.getElementById('name').value;
+        let bookCapacity = document.getElementById("bookCapacity").value;
+        fetch('http://localhost:26706/library', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', },
+            body: JSON.stringify(
+                { id: selectedLib.id, name, bookCapacity: parseInt(bookCapacity) })
+        })
+            .then(response => response)
+            .then(data => {
+                console.log('Success:', data);
+                getdata();
+                clearForm()
+            })
+            .catch((error) => { console.error('Error:', error); });
+    } else {
+        console.log("no library selected")
+    }
 
 }
 
