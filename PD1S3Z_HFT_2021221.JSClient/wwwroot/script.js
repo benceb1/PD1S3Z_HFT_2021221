@@ -1,5 +1,6 @@
 ﻿let books = [];
 let libraries = [];
+let selectedBook = null;
 let connection = null;
 getdata();
 setupSignalR();
@@ -16,6 +17,10 @@ function setupSignalR() {
     });
 
     connection.on("BookDeleted", (user, message) => {
+        getdata();
+    });
+
+    connection.on("BookUpdated", (user, message) => {
         getdata();
     });
 
@@ -50,16 +55,16 @@ async function getdata() {
         .then(x => x.json())
         .then(y => {
             libraries = y;
-            console.log("asd")
-            displaySelect();
+            displaySelect()
         });
 }
 
 function displaySelect() {
+    var x = document.getElementById("library");
+    x.innerHTML = "";
     libraries.forEach(l => {
-        var x = document.getElementById("library");
+        
         var option = new Option(l.name, l.id);
-        console.log(option.value);
         x.appendChild(option);
     })
     var elems = document.querySelectorAll('select');
@@ -72,9 +77,35 @@ function display() {
         document.getElementById('resultarea').innerHTML +=
             "<tr><td>" + t.id + "</td><td>"
             + t.title + "</td><td>" +
-        `<button class="waves-effect waves-light btn" type="button" onclick="remove(${t.id})">Delete</button>`
+        `<button style="margin: 10px;" class="waves-effect waves-light btn" type="button" onclick="remove(${t.id})">Delete</button>` +
+        `<button style="margin: 10px;" class="waves-effect waves-light btn" type="button" onclick="select(${t.id})">Select</button>`
             + "</td></tr>";
     });
+    displaySelect();
+
+}
+
+const select = (id) => {
+    selectedBook = books.filter(l => l.id === id)[0];
+    if (selectedBook) {
+        document.getElementById('title').value = selectedBook.title;
+        document.getElementById('author').value = selectedBook.author;
+        document.getElementById('genre').value = selectedBook.genre;
+        document.getElementById('publishing').value = selectedBook.publishing;
+        document.getElementById('numberOfPages').value = selectedBook.numberOfPages;
+
+        const element = document.getElementById('library');
+        element.value = selectedBook.libraryId;
+        const { options } = M.FormSelect.getInstance(element);
+        M.FormSelect.init(element, options);
+
+        document.getElementById('title').focus();
+        document.getElementById('author').focus();
+        document.getElementById('genre').focus();
+        document.getElementById('publishing').focus();
+        document.getElementById('numberOfPages').focus();
+        document.getElementById('library').focus();
+    }
 }
 
 function remove(id) {
@@ -89,7 +120,33 @@ function remove(id) {
             getdata();
         })
         .catch((error) => { console.error('Error:', error); });
+}
 
+const update = () => {
+    if (selectedBook) {
+        let title = document.getElementById('title').value;
+        let author = document.getElementById('author').value;
+        let genre = document.getElementById('genre').value;
+        let publishing = document.getElementById('publishing').value;
+        let numberOfPages = document.getElementById('numberOfPages').value;
+        let libraryId = document.getElementById('library').value;
+
+        fetch('http://localhost:26706/book', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', },
+            body: JSON.stringify(
+                { id: selectedBook.id, title, author, genre, publishing: parseInt(publishing), numberOfPages: parseInt(numberOfPages), libraryId: parseInt(libraryId) })
+        })
+            .then(response => response)
+            .then(data => {
+                console.log('Success:', data);
+                getdata();
+                clearForm();
+            })
+            .catch((error) => { console.error('Error:', error); });
+    } else {
+        console.log("selectedBook is empty")
+    }
 }
 
 
@@ -100,8 +157,6 @@ function create() {
     let publishing = document.getElementById('publishing').value;
     let numberOfPages = document.getElementById('numberOfPages').value;
     let libraryId = document.getElementById('library').value;
-
-    console.log({ title, author, genre, publishing: parseInt(publishing), numberOfPages: parseInt(numberOfPages), libraryId: parseInt(libraryId) })
 
     fetch('http://localhost:26706/book', {
         method: 'POST',

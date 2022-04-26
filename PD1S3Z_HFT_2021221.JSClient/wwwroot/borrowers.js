@@ -1,6 +1,6 @@
 ﻿
-
 let borrowers = [];
+let selectedBorrower = null;
 let connection = null;
 getdata();
 setupSignalR();
@@ -52,9 +52,18 @@ function display() {
         document.getElementById('resultarea').innerHTML +=
             "<tr><td>" + t.id + "</td><td>"
             + t.name + "</td><td>" +
-            `<button class="waves-effect waves-light btn" type="button" onclick="remove(${t.id})">Delete</button>`
+        `<button style="margin: 10px;" class="waves-effect waves-light btn" type="button" onclick="remove(${t.id})">Delete</button>` +
+        `<button style="margin: 10px;" class="waves-effect waves-light btn" type="button" onclick="select(${t.id})">Select</button>`
             + "</td></tr>";
     });
+}
+
+const select = (id) => {
+    selectedBorrower = borrowers.filter(l => l.id === id)[0];
+
+    if (selectedBorrower) {
+
+    }
 }
 
 function remove(id) {
