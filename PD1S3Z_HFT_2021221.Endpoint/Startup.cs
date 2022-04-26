@@ -72,6 +72,12 @@ namespace PD1S3Z_HFT_2021221.Endpoint
                 await context.Response.WriteAsJsonAsync(response);
             }));
 
+            app.UseCors(x => x
+                .AllowCredentials()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithOrigins("http://localhost:59753"));
+
             app.UseRouting();
 
             app.UseAuthorization();

@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <ul id="nav-mobile" class="left hide-on-med-and-down">
+                <li><a href="index.html">Books</a></li>
+                <li><a href="libraries.html">Libraries</a></li>
+                <li><a href="borrowers.html">Borrowers</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <h2 style="text-align: center;">Libraries</h2>
+
+    <div id="formdiv">
+        <div class="input-field">
+            <input id="name" type="text" class="validate">
+            <label for="name">Name</label>
+        </div>
+        <div class="input-field">
+            <input id="bookCapacity" type="text" class="validate">
+            <label for="bookCapacity">Book capacity</label>
+        </div>
+
+        <button class="waves-effect waves-light btn" type="button" onclick="create()">Add</button>
+    </div>
+
+    <div class="table-container">
+        <table class="stripped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="resultarea">
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="libraries.js"></script>
+</body>
+</html>

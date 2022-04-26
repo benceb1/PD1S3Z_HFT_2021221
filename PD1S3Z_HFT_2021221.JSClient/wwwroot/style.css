@@ -1,0 +1,20 @@
+﻿
+
+th, td {
+    padding: 5px;
+}
+
+th {
+    background-color: lightblue;
+}
+
+#formdiv {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    margin: 3rem;
+}
+
+.table-container {
+    margin: 3rem;
+}
