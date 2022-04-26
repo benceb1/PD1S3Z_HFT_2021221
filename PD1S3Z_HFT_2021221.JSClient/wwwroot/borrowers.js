@@ -20,6 +20,10 @@ function setupSignalR() {
         getdata();
     });
 
+    connection.on("BorrowerUpdated", (user, message) => {
+        getdata();
+    });
+
     connection.onclose(async () => {
         await start();
     });
@@ -62,7 +66,24 @@ const select = (id) => {
     selectedBorrower = borrowers.filter(l => l.id === id)[0];
 
     if (selectedBorrower) {
+        document.getElementById('name').value = selectedBorrower.name;
+        document.getElementById('age').value = selectedBorrower.age;
 
+        const element = document.getElementById('membershipLevel');
+        element.value = selectedBorrower.membershipLevel;
+        const { options } = M.FormSelect.getInstance(element);
+        M.FormSelect.init(element, options);
+
+        document.getElementById('numberOfBooksRead').value = selectedBorrower.numberOfBooksRead;
+        document.getElementById('numberOfLateLendings').value = selectedBorrower.numberOfLateLendings;
+        document.getElementById('startOfMembership').value = selectedBorrower.startOfMembership;
+
+
+        document.getElementById('name').focus();
+        document.getElementById('age').focus();
+        document.getElementById('numberOfBooksRead').focus();
+        document.getElementById('numberOfLateLendings').focus();
+        document.getElementById('startOfMembership').focus();
     }
 }
 
@@ -102,7 +123,33 @@ function create() {
             clearForm();
         })
         .catch((error) => { console.error('Error:', error); });
+}
 
+function update() {
+    if (selectedBorrower) {
+        let Name = document.getElementById('name').value;
+        let Age = document.getElementById('age').value;
+        let MembershipLevel = document.getElementById('membershipLevel').value;
+        let NumberOfBooksRead = document.getElementById('numberOfBooksRead').value;
+        let NumberOfLateLendings = document.getElementById('numberOfLateLendings').value;
+        let StartOfMembership = document.getElementById('startOfMembership').value;
+
+        fetch('http://localhost:26706/borrower', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', },
+            body: JSON.stringify(
+                { id: selectedBorrower.id, Name, Age: parseInt(Age), MembershipLevel: parseInt(MembershipLevel), NumberOfBooksRead: parseInt(NumberOfBooksRead), NumberOfLateLendings: parseInt(NumberOfLateLendings), StartOfMembership })
+        })
+            .then(response => response)
+            .then(data => {
+                console.log('Success:', data);
+                getdata();
+                clearForm();
+            })
+            .catch((error) => { console.error('Error:', error); });
+    } else {
+        console.log("no borrower selected")
+    }
 }
 
 function clearForm() {
